@@ -15,8 +15,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Header from "./Header";
 
-function createData(id, question, student) {
-  return { id, question, student: student.name };
+function createData(id, question) {
+
+  let obj={id,question};
+
+  stdObjects.forEach((student)=>obj[student.name]=student.content)
+  // return { id, question, student};
+  return obj;
 }
 
 const questions = [
@@ -95,17 +100,19 @@ stdObjects.forEach((student) =>
   columns.push({ id: student.name, label: student.name, minWidth: 100 })
 );
 
-console.log("col", columns);
 
 questions.forEach((question) =>
   rows.push(
     createData(
       uuidv4(),
       question,
-      stdObjects.map((obj) => obj.name)
+      stdObjects
     )
   )
 );
+
+console.log("col", rows);
+
 
 export default function App() {
   const [page, setPage] = useState(0);
