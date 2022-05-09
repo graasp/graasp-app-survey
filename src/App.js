@@ -15,6 +15,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Header from "./Header";
 
+function createData(id, question, student) {
+  return { id, question, student: student.name };
+}
+
 const questions = [
   "Attend nearly all team meetings?",
   "Arrive on time for nearly all team meetings?",
@@ -35,13 +39,12 @@ const questions = [
   "Demonstrate an ability to do research and gather information?",
   "Shows an ability to distinguish between the important and the trivial?",
 ];
+
 const students = ["Lynn", "Tamara", "John", "James", "Grace"];
+
 const columns = [
   { id: "question", label: "Did the Team Member...", minWidth: 170 },
 ];
-function createData(id, question, student) {
-  return { id, question, student:student.name };
-}
 
 const noCheckBoxStyles = (theme) => ({
   root: {
@@ -72,13 +75,10 @@ const yesCheckBoxStyles = (theme) => ({
 const NoCheckbox = withStyles(noCheckBoxStyles)(Checkbox);
 const AvgCheckbox = withStyles(avgCheckBoxStyles)(Checkbox);
 const YesCheckbox = withStyles(yesCheckBoxStyles)(Checkbox);
-
 const rows = [];
+
 const stdObjects = [];
 
-students.forEach((student) =>
-  columns.push({ id: student.name, label: student, minWidth: 100 })
-);
 students.forEach((student) =>
   stdObjects.push({
     name: student,
@@ -91,14 +91,18 @@ students.forEach((student) =>
     ),
   })
 );
-console.log(stdObjects)
+stdObjects.forEach((student) =>
+  columns.push({ id: student.name, label: student.name, minWidth: 100 })
+);
+
+console.log("col", columns);
 
 questions.forEach((question) =>
   rows.push(
     createData(
       uuidv4(),
       question,
-      stdObjects.map((obj)=>obj.content)
+      stdObjects.map((obj) => obj.name)
     )
   )
 );
