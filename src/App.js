@@ -9,11 +9,13 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { v4 as uuidv4 } from "uuid";
 import Checkbox from "@mui/material/Checkbox";
-// import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { red } from "@material-ui/core/colors";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Header from "./Header";
+import CustomCheckbox from "./CustomCheckBox";
 
 function createData(id, question) {
   let obj = { id, question };
@@ -22,6 +24,16 @@ function createData(id, question) {
   // return { id, question, student};
   return obj;
 }
+
+const RedCheckbox = withStyles({
+  root: {
+    color: red[900],
+    '&$checked': {
+      color: red[200],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 const questions = [
   "Attend nearly all team meetings?",
@@ -64,10 +76,11 @@ const rows = [];
 
 const stdObjects = [];
 
+
 students.forEach((student) =>
   stdObjects.push({
     name: student,
-    content: <Checkbox />,
+    content: <CustomCheckbox />
   })
 );
 stdObjects.forEach((student) =>
@@ -78,7 +91,6 @@ questions.forEach((question, index) =>
   rows.push(createData(uuidv4(), index + 1 + ". " + question, stdObjects))
 );
 
-console.log("col", rows);
 
 export default function App() {
   const [page, setPage] = useState(0);
@@ -173,3 +185,77 @@ export default function App() {
     </div>
   );
 }
+
+// import React from "react";
+// import Checkbox from "@mui/material/Checkbox";
+// const CHECKBOX_STATES = {
+//   Checked: "Checked",
+//   Indeterminate: "Indeterminate",
+//   Negative: "Negative",
+//   Empty: "Empty",
+// };
+
+// const App = () => {
+//   const [checked, setChecked] = React.useState(CHECKBOX_STATES.Empty);
+
+//   const handleChange = () => {
+//     let updatedChecked;
+
+//     if (checked === CHECKBOX_STATES.Checked) {
+//       updatedChecked = CHECKBOX_STATES.Empty;
+//     } else if (checked === CHECKBOX_STATES.Empty) {
+//       updatedChecked = CHECKBOX_STATES.Indeterminate;
+//     } else if (checked === CHECKBOX_STATES.Indeterminate) {
+//       updatedChecked = CHECKBOX_STATES.Negative;
+//     } else if (checked === CHECKBOX_STATES.Negative) {
+//       updatedChecked = CHECKBOX_STATES.Checked;
+//     }
+
+//     setChecked(updatedChecked);
+//   };
+
+//   return (
+//     <div>
+//       <CustomCheckbox label="Value" value={checked} onChange={handleChange} />
+
+//       <p>Is checked? {checked}</p>
+//     </div>
+//   );
+// };
+
+// const CustomCheckbox = ({ label, value, onChange }) => {
+//   const checkboxRef = React.useRef(null);
+
+//   React.useEffect(() => {
+//     if (value === CHECKBOX_STATES.Checked) {
+//       checkboxRef.current.checked = true;
+//       checkboxRef.current.indeterminate = false;
+//       checkboxRef.current.className = 'black-in';
+
+//     } else if (value === CHECKBOX_STATES.Empty) {
+//       checkboxRef.current.checked = false;
+//       checkboxRef.current.indeterminate = false;
+
+//     } else if (value === CHECKBOX_STATES.Indeterminate) {
+//       checkboxRef.current.checked = false;
+//       checkboxRef.current.indeterminate = true;
+
+//     } else if (value === CHECKBOX_STATES.Negative) {
+//       checkboxRef.current.checked = false;
+//       checkboxRef.current.indeterminate = false;
+
+//     }
+//   }, [value]);
+
+
+//   console.log(checkboxRef.current)
+//   return (
+//     <label>
+//       <input ref={checkboxRef} type="checkbox" onChange={onChange} />
+//       {label}
+//     </label>
+//   //  <Checkbox ref={checkboxRef} type="checkbox" onChange={onChange} />
+//   );
+// };
+
+// export default App;
