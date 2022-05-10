@@ -19,7 +19,6 @@ function createData(id, question) {
 
   stdObjects.forEach((student) => (obj[student.name] = student.content));
   // return { id, question, student};
-  console.log(obj.Lynn)
   return obj;
 }
 
