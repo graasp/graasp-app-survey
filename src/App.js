@@ -9,17 +9,16 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { v4 as uuidv4 } from "uuid";
 import Checkbox from "@mui/material/Checkbox";
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Header from "./Header";
 
 function createData(id, question) {
+  let obj = { id, question };
 
-  let obj={id,question};
-
-  stdObjects.forEach((student)=>obj[student.name]=student.content)
+  stdObjects.forEach((student) => (obj[student.name] = student.content));
   // return { id, question, student};
   return obj;
 }
@@ -51,35 +50,16 @@ const columns = [
   { id: "question", label: "Did the Team Member...", minWidth: 170 },
 ];
 
-const noCheckBoxStyles = (theme) => ({
-  root: {
-    "&$checked": {
-      color: "red",
-    },
-  },
-  checked: {},
-});
-const avgCheckBoxStyles = (theme) => ({
-  root: {
-    "&$checked": {
-      color: "orange",
-      checked: {},
-    },
-  },
-  checked: {},
-});
-const yesCheckBoxStyles = (theme) => ({
-  root: {
-    "&$checked": {
-      color: "green",
-    },
-  },
-  checked: {},
-});
+// const noCheckBoxStyles = (theme) => ({
+//   root: {
+//     "&$checked": {
+//       color: "red",
+//     },
+//   },
+//   checked: {},
+// });
 
-const NoCheckbox = withStyles(noCheckBoxStyles)(Checkbox);
-const AvgCheckbox = withStyles(avgCheckBoxStyles)(Checkbox);
-const YesCheckbox = withStyles(yesCheckBoxStyles)(Checkbox);
+// const customCheckbox = withStyles(noCheckBoxStyles)(Checkbox);
 const rows = [];
 
 const stdObjects = [];
@@ -87,32 +67,18 @@ const stdObjects = [];
 students.forEach((student) =>
   stdObjects.push({
     name: student,
-    content: (
-      <div>
-        <NoCheckbox />
-        <AvgCheckbox />
-        <YesCheckbox />
-      </div>
-    ),
+    content: <Checkbox />,
   })
 );
 stdObjects.forEach((student) =>
   columns.push({ id: student.name, label: student.name, minWidth: 100 })
 );
 
-
-questions.forEach((question) =>
-  rows.push(
-    createData(
-      uuidv4(),
-      question,
-      stdObjects
-    )
-  )
+questions.forEach((question, index) =>
+  rows.push(createData(uuidv4(), index + 1 + ". " + question, stdObjects))
 );
 
 console.log("col", rows);
-
 
 export default function App() {
   const [page, setPage] = useState(0);
