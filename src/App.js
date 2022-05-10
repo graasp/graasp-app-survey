@@ -42,7 +42,7 @@ const questions = [
   "Demonstrate an ability to do research and gather information?",
   "Shows an ability to distinguish between the important and the trivial?",
 ];
-
+let count=0;
 const students = ["Lynn", "Tamara", "John", "James", "Grace"];
 
 const columns = [
@@ -81,7 +81,8 @@ export default function App() {
     setPage(0);
   };
 
-
+count++
+console.log(count)
   return (
     <div style={{ padding: "20px 20px 20px 20px" }}>
       <Header />

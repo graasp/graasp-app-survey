@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Checkbox from "@mui/material/Checkbox";
 
 const CHECKBOX_STATES = {
   Positive: "Positive",
@@ -7,7 +6,7 @@ const CHECKBOX_STATES = {
   Negative: "Negative",
   Empty: "Empty",
 };
-let count=0
+
 const CustomCheckbox = (props) => {
   //   const [positive, setPositive] = useState(false);
   //   const [nonApplicable, setNonApplicable] = useState(false);
@@ -38,24 +37,50 @@ const CustomCheckbox = (props) => {
     setIsChecked(updatedChecked);
   };
 
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
   const conditionalRender = () => {
     switch (isChecked) {
       case CHECKBOX_STATES.Positive:
-        return <Checkbox {...label} color="secondary" onClick={handleChange} />;
+        return (
+          <input
+            type="checkbox"
+            checked
+            style={{ transform: "scale(2)", filter: "hue-rotate(240deg)" }}
+            color="blue"
+            onClick={handleChange}
+          />
+        );
       case CHECKBOX_STATES.Empty:
-        return <Checkbox {...label} onClick={handleChange} />;
+        return (
+          <input
+            type="checkbox"
+            style={{ transform: "scale(2)" }}
+            onClick={handleChange}
+          />
+        );
       case CHECKBOX_STATES.NonApplicable:
-        return <Checkbox {...label} color="primary" onClick={handleChange} />;
+        return (
+          <input
+            type="checkbox"
+            checked
+            style={{ transform: "scale(2)", filter: "hue-rotate(200deg)" }}
+            color="green"
+            onClick={handleChange}
+          />
+        );
       case CHECKBOX_STATES.Negative:
-        return <Checkbox {...label} color="success" onClick={handleChange} />;
+        return (
+          <input
+            type="checkbox"
+            checked
+            style={{ transform: "scale(2)",  filter: "hue-rotate(140deg)"}}
+            onClick={handleChange}
+          />
+        );
       default:
-        return <Checkbox {...label} color="default" onClick={handleChange} />;
+        return;
     }
   };
-  count++
-  console.log(count,isChecked)
+  console.log(isChecked);
   return <>{conditionalRender()}</>;
 };
 
