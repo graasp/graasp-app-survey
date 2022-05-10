@@ -8,9 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { v4 as uuidv4 } from "uuid";
-import Checkbox from "@mui/material/Checkbox";
-import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
-import { red } from "@material-ui/core/colors";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -22,18 +19,9 @@ function createData(id, question) {
 
   stdObjects.forEach((student) => (obj[student.name] = student.content));
   // return { id, question, student};
+  console.log(obj.Lynn)
   return obj;
 }
-
-const RedCheckbox = withStyles({
-  root: {
-    color: red[900],
-    '&$checked': {
-      color: red[200],
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
 
 const questions = [
   "Attend nearly all team meetings?",
@@ -62,39 +50,28 @@ const columns = [
   { id: "question", label: "Did the Team Member...", minWidth: 170 },
 ];
 
-// const noCheckBoxStyles = (theme) => ({
-//   root: {
-//     "&$checked": {
-//       color: "red",
-//     },
-//   },
-//   checked: {},
-// });
-
-// const customCheckbox = withStyles(noCheckBoxStyles)(Checkbox);
 const rows = [];
 
 const stdObjects = [];
 
-
 students.forEach((student) =>
   stdObjects.push({
     name: student,
-    content: <CustomCheckbox />
+    content: <CustomCheckbox id={student}/>,
   })
 );
 stdObjects.forEach((student) =>
   columns.push({ id: student.name, label: student.name, minWidth: 100 })
 );
-
 questions.forEach((question, index) =>
   rows.push(createData(uuidv4(), index + 1 + ". " + question, stdObjects))
 );
 
-
 export default function App() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -104,6 +81,7 @@ export default function App() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
 
   return (
     <div style={{ padding: "20px 20px 20px 20px" }}>
@@ -178,14 +156,13 @@ export default function App() {
           color="secondary"
           style={{ marginTop: "20px", width: "100%" }}
         />
-        <Button color="secondary" variant="contained">
+        <Button disabled color="secondary" variant="contained" type="submit">
           Submit
         </Button>
       </Box>
     </div>
   );
 }
-
 // import React from "react";
 // import Checkbox from "@mui/material/Checkbox";
 // const CHECKBOX_STATES = {
@@ -246,7 +223,6 @@ export default function App() {
 
 //     }
 //   }, [value]);
-
 
 //   console.log(checkboxRef.current)
 //   return (
