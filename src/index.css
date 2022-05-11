@@ -12,3 +12,16 @@
     line-height: 1.5;
     text-align: justify;
   }
+
+  .blue{
+    background-color: blue;
+  }
+  .red{
+    background-color: red;
+  }
+  .yellow{
+    background-color: yellow;
+  }
+  .green{
+    background-color: green;
+  }
