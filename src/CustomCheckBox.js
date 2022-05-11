@@ -12,9 +12,13 @@ const CustomCheckbox = (props) => {
   const [positive, setPositive] = useState(false);
   const [nonApplicable, setNonApplicable] = useState(false);
   const [negative, setNegative] = useState(false);
+  const [empty, setEmpty] = useState(true);
+
+  // props.stdObjects.forEach((obj)=>console.log(obj.content._store.valueOf()))
 
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
-  const handleChange = () => {
+  const handleChange = (event) => {
+    console.log(event.target.checked)
     let updatedChecked;
 
     switch (isChecked) {
@@ -25,11 +29,13 @@ const CustomCheckbox = (props) => {
         break;
       case CHECKBOX_STATES.Empty:
         updatedChecked = CHECKBOX_STATES.Positive;
+        setEmpty(false);
         setPositive(true);
         break;
       case CHECKBOX_STATES.NonApplicable:
         updatedChecked = CHECKBOX_STATES.Empty;
         setNonApplicable(false);
+        setEmpty(true);
         break;
       case CHECKBOX_STATES.Negative:
         updatedChecked = CHECKBOX_STATES.NonApplicable;
@@ -63,7 +69,7 @@ const CustomCheckbox = (props) => {
       );
     }
     if (isChecked === CHECKBOX_STATES.Empty) {
-      return <Checkbox checked={false} onClick={handleChange} />;
+      return <Checkbox checked={empty ? false:' '} onClick={handleChange} />;
     }
     if (isChecked === CHECKBOX_STATES.NonApplicable) {
       return (
@@ -75,7 +81,6 @@ const CustomCheckbox = (props) => {
       );
     }
   };
-  console.log(isChecked);
   return <>{conditionalRender()}</>;
 };
 
