@@ -1,12 +1,14 @@
+import Description from "./Description";
+import Legend from "./Legend";
+
 const Header = () => {
   return (
-  <div>
-      Hello, this is an experiment
-      <br />
-
-      <i>Reference: Teaching and Assessing Teamwork Skills in Engineering and Computer Science</i>
+  <div style={{display:'flex',flexDirection:'column'}}>
+     <div > <Description /></div>
+     <div style={{alignSelf:'flex-end'}}> <Legend /></div>
       
-  </div>)
+  </div>
+  )
 };
 
 export default Header;
