@@ -51,7 +51,7 @@ const CustomCheckbox = (props) => {
       return (
         <Checkbox
           checked={positive ? positive : " "}
-          style={{ filter: "hue-rotate(240deg)" }}
+          style={{ color:'green'}}
           onClick={handleChange}
         />
       );
@@ -59,8 +59,8 @@ const CustomCheckbox = (props) => {
     if (isChecked === CHECKBOX_STATES.Negative) {
       return (
         <Checkbox
-          checked={positive ? positive : " "}
-          style={{ filter: "hue-rotate(240deg)" }}
+          checked={negative ? negative : " "}
+          style={{ color:'red'}}
           onClick={handleChange}
         />
       );
@@ -68,8 +68,7 @@ const CustomCheckbox = (props) => {
     if (isChecked === CHECKBOX_STATES.Empty) {
       return (
         <Checkbox
-          checked={positive ? positive : " "}
-          style={{ filter: "hue-rotate(240deg)" }}
+          checked={false}
           onClick={handleChange}
         />
       );
@@ -77,8 +76,8 @@ const CustomCheckbox = (props) => {
     if (isChecked === CHECKBOX_STATES.NonApplicable) {
       return (
         <Checkbox
-          checked={positive ? positive : " "}
-          style={{ filter: "hue-rotate(240deg)" }}
+          checked={nonApplicable ? nonApplicable : " "}
+          style={{color:'orange'}}
           onClick={handleChange}
         />
       );
