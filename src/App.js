@@ -42,7 +42,6 @@ const questions = [
   "Demonstrate an ability to do research and gather information?",
   "Shows an ability to distinguish between the important and the trivial?",
 ];
-let count=0;
 const students = ["Lynn", "Tamara", "John", "James", "Grace"];
 
 const columns = [
@@ -53,12 +52,15 @@ const rows = [];
 
 const stdObjects = [];
 
+
+
 students.forEach((student) =>
   stdObjects.push({
     name: student,
-    content: <CustomCheckbox id={student}/>,
+    content: <CustomCheckbox id={student} stdObjects={stdObjects}/>,
   })
 );
+
 stdObjects.forEach((student) =>
   columns.push({ id: student.name, label: student.name, minWidth: 100 })
 );
@@ -66,11 +68,13 @@ questions.forEach((question, index) =>
   rows.push(createData(uuidv4(), index + 1 + ". " + question, stdObjects))
 );
 
-export default function App() {
+let count=0;
+const App=()=> {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  
+count++
+console.log(count)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -81,8 +85,6 @@ export default function App() {
     setPage(0);
   };
 
-count++
-console.log(count)
   return (
     <div style={{ padding: "20px 20px 20px 20px" }}>
       <Header />
@@ -163,6 +165,8 @@ console.log(count)
     </div>
   );
 }
+
+export default App;
 // import React from "react";
 // import Checkbox from "@mui/material/Checkbox";
 // const CHECKBOX_STATES = {
