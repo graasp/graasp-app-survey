@@ -14,14 +14,6 @@ import Button from "@mui/material/Button";
 import Header from "./Header";
 import CustomCheckbox from "./CustomCheckBox";
 
-function createData(id, question) {
-  let obj = { id, question };
-
-  stdObjects.forEach((student) => (obj[student.name] = student.content));
-  // return { id, question, student};
-  return obj;
-}
-
 const questions = [
   "Attend nearly all team meetings?",
   "Arrive on time for nearly all team meetings?",
@@ -48,33 +40,34 @@ const columns = [
   { id: "question", label: "Did the Team Member...", minWidth: 170 },
 ];
 
-const rows = [];
-
-const stdObjects = [];
-
-
-
-students.forEach((student) =>
-  stdObjects.push({
-    name: student,
-    content: <CustomCheckbox id={student} stdObjects={stdObjects}/>,
-  })
-);
-
-stdObjects.forEach((student) =>
-  columns.push({ id: student.name, label: student.name, minWidth: 100 })
-);
-questions.forEach((question, index) =>
-  rows.push(createData(uuidv4(), index + 1 + ". " + question, stdObjects))
-);
-
-let count=0;
-const App=()=> {
+const App = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-count++
-console.log(count)
+  const rows = [];
+
+  const stdObjects = [];
+  
+  function createData(id, question) {
+    let obj = { id, question };
+
+    stdObjects.forEach((student) => (obj[student.name] = student.content));
+    // return { id, question, student};
+    return obj;
+  }
+  students.forEach((student) =>
+    stdObjects.push({
+      name: student,
+      content: <CustomCheckbox id={student} stdObjects={stdObjects} />,
+    })
+  );
+
+  stdObjects.forEach((student) =>
+    columns.push({ id: student.name, label: student.name, minWidth: 100 })
+  );
+  questions.forEach((question, index) =>
+    rows.push(createData(uuidv4(), index + 1 + ". " + question, stdObjects))
+  );
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -164,7 +157,7 @@ console.log(count)
       </Box>
     </div>
   );
-}
+};
 
 export default App;
 // import React from "react";
