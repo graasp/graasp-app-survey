@@ -107,7 +107,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div style={{ padding: "50px 20px 20px 20px" }}>
       <Header />
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "20px" }}>
         <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
@@ -179,7 +179,7 @@ const App = () => {
           Submit
         </Button>
       </Box>
-    </>
+    </div>
   );
 };
 
