@@ -92,13 +92,33 @@ const App = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [objectStudents, setObjectStudents] = useState(
-    students.map((student) => ({ id: uuidv4(), student, state: "Empty" }))
+    students.map((student) => ({ id: uuidv4(), student}))
   );
+
   const [objectQuestions, setObjectQuestions] = useState(
     questions.map((question) => ({ id: uuidv4(), question}))
   );
 
-  console.log(objectStudents);
+ const generateQuestionStudents=(stdArr,questArr)=>{
+
+  const arr=[]
+  for(let quest of questArr){
+    for(let std of stdArr){
+      arr.push({
+        studentId:std.student,
+        questionId:quest.id,
+        state:"Empty"
+
+      })
+      
+    }
+  }
+  return arr
+ }
+
+ const [questionStudent,setQuestionStudent]=useState(generateQuestionStudents(objectStudents,objectQuestions))
+
+//  console.log(questionStudent)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -141,10 +161,12 @@ const App = () => {
                     {objectStudents.map((student) => (
                       <TableCell align="right">
                         <CustomCheckbox
-                          index={student.id}
-                          question={row.id}
+                          studentId={student.student}
+                          questionId={row.id}
                           objectStudents={objectStudents}
                           setObjectStudents={setObjectStudents}
+                          questionStudent={questionStudent}
+                          setQuestionStudent={setQuestionStudent}
                         />
                       </TableCell>
                     ))}
