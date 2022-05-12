@@ -14,13 +14,13 @@ const CustomCheckbox = (props) => {
   const [negative, setNegative] = useState(false);
   const [empty, setEmpty] = useState(true);
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
-  const [questionStudent, setQuestionStudent] = useState([props.questionStudent]);
+  const [questionStudent, setQuestionStudent] = useState([
+    props.questionStudent,
+  ]);
 
-  useEffect(()=>{
-    setQuestionStudent(props.questionStudent)
-    console.log(questionStudent)
-
-  })
+  useEffect(() => {
+    setQuestionStudent(props.questionStudent);
+  },[]);
 
   // props.stdObjects.forEach((obj)=>console.log(obj.content._store.valueOf()))
 
@@ -29,7 +29,6 @@ const CustomCheckbox = (props) => {
       if (obj.studentId === index && obj.questionId === question) {
         return { ...obj, state: status };
       }
-
       return obj;
     });
     return newArray;
@@ -77,8 +76,6 @@ const CustomCheckbox = (props) => {
         updatedChecked
       )
     );
-
-    
 
     // props.setObjectStudents(
     //   updateObject(props.objectStudents, props.index, updatedChecked)

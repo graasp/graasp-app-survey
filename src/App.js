@@ -99,6 +99,7 @@ const App = () => {
     questions.map((question) => ({ id: uuidv4(), question}))
   );
 
+
  const generateQuestionStudents=(stdArr,questArr)=>{
 
   const arr=[]
@@ -108,7 +109,6 @@ const App = () => {
         studentId:std.student,
         questionId:quest.id,
         state:"Empty"
-
       })
       
     }
@@ -118,7 +118,13 @@ const App = () => {
 
  const [questionStudent,setQuestionStudent]=useState(generateQuestionStudents(objectStudents,objectQuestions))
 
-//  console.log(questionStudent)
+ const disableButton=()=>{
+  if (questionStudent.filter(e => e.state === 'Empty').length > 0) {
+    console.log(questionStudent.filter(e => e.state === 'Empty').length)
+    return true
+  }
+  return false
+}
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -201,7 +207,7 @@ const App = () => {
           color="secondary"
           style={{ marginTop: "20px", width: "100%" }}
         />
-        <Button disabled color="secondary" variant="contained" type="submit">
+        <Button disabled={disableButton()} color="secondary" variant="contained" type="submit">
           Submit
         </Button>
       </Box>
