@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
+import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
+import { useAppContext } from '../context/appData';
+import { ACTION_TYPES } from '../../config/actionTypes';
+
 
 const CHECKBOX_STATES = {
   Positive: "Positive",
@@ -9,6 +13,19 @@ const CHECKBOX_STATES = {
 };
 
 const CustomCheckbox = (props) => {
+
+  const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
+  const { mutate: postAction } = useMutation(MUTATION_KEYS.POST_APP_ACTION);
+
+
+  const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
+
+  useEffect(() => {
+    if (isAppContextSuccess) {
+      setQuestionStudent(props.questionStudent);
+
+    }
+  }, [appContext, isAppContextSuccess]);
   const [positive, setPositive] = useState(false);
   const [nonApplicable, setNonApplicable] = useState(false);
   const [negative, setNegative] = useState(false);
@@ -78,6 +95,13 @@ const CustomCheckbox = (props) => {
         updatedChecked
       )
     );
+    postAppData(props.questionStudent)
+    postAction({
+      type: ACTION_TYPES.CHECK,
+      data: {
+        everything:props.questionStudent
+      },
+    });
 
     // props.setObjectStudents(
     //   updateObject(props.objectStudents, props.index, updatedChecked)

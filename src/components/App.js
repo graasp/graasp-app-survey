@@ -38,26 +38,6 @@ const questions = [
 // const students = ["Lynn", "Tamara", "John", "James", "Grace"];
 
 const App = () => {
-  const [students, setStudents] = useState([]);
-  const [objectStudents, setObjectStudents] = useState([]);
-  const [comment, setComment]=useState(' ');
-
-  const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
-
-  useEffect(() => {
-    if (isAppContextSuccess) {
-      // setStudents(appContext?.get('members').map((std) => std.name));
-      setObjectStudents(appContext?.get('members').map((std) => std.name).map((student) => ({ id: uuidv4(), student })));
-    }
-  }, [appContext, isAppContextSuccess]);
-
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [objectQuestions, setObjectQuestions] = useState(
-    questions.map((question) => ({ id: uuidv4(), question })),
-  );
-
   const generateQuestionStudents = (stdArr, questArr) => {
     const arr = [];
     for (let quest of questArr) {
@@ -72,8 +52,32 @@ const App = () => {
     return arr;
   };
 
-  const [questionStudent, setQuestionStudent] = useState(
-    generateQuestionStudents(objectStudents, objectQuestions),
+  const [objectStudents, setObjectStudents] = useState([]);
+  const [comment, setComment] = useState(' ');
+  const [questionStudent, setQuestionStudent] = useState([]);
+
+  const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
+
+  useEffect(() => {
+    if (isAppContextSuccess) {
+      // setStudents(appContext?.get('members').map((std) => std.name));
+      setObjectStudents(
+        appContext
+          ?.get('members')
+          .map((std) => std.name)
+          .map((student) => ({ id: uuidv4(), student })),
+      );
+      setQuestionStudent(
+        generateQuestionStudents(objectStudents, objectQuestions),
+      );
+    }
+  }, [appContext, isAppContextSuccess]);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [objectQuestions, setObjectQuestions] = useState(
+    questions.map((question,index) => ({ id: uuidv4(), question, position:index })),
   );
 
   const disableButton = () => {
@@ -83,7 +87,6 @@ const App = () => {
     }
     return false;
   };
-  console.log(comment)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -121,10 +124,12 @@ const App = () => {
                 .map((row) => (
                   <TableRow key={row.id} hover>
                     <TableCell component="th" scope="row">
-                      {row.question}
+                      {row.position+1}. {row.question}
                     </TableCell>
                     {objectStudents.map((student) => (
-                      <TableCell align="right" style={{wordBreak:'break-all'}}>
+                      <TableCell
+                        align="right"
+                      >
                         <CustomCheckbox
                           studentId={student.student}
                           questionId={row.id}
@@ -165,14 +170,14 @@ const App = () => {
           multiline
           color="secondary"
           style={{ marginTop: '20px', width: '100%' }}
-          onChange={(e)=>setComment(e.target.value)}
+          onChange={(e) => setComment(e.target.value)}
         />
         <Button
           disabled={disableButton()}
           color="secondary"
           variant="contained"
           // type="submit"
-          onClick={()=>setComment(comment)}
+          onClick={() => setComment(comment)}
         >
           Submit
         </Button>
