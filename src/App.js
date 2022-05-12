@@ -50,7 +50,7 @@
 // }
 
 // export default App;
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
@@ -58,12 +58,14 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import Table from "@material-ui/core/Table";
-import { Checkbox } from "@mui/material";
 import Paper from "@material-ui/core/Paper";
 import { v4 as uuidv4 } from "uuid";
+import CustomCheckbox from "./CustomCheckBox";
+import Header from "./Header";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
-const rows = [];
-let objectQuestions = [];
 const questions = [
   "Attend nearly all team meetings?",
   "Arrive on time for nearly all team meetings?",
@@ -87,19 +89,13 @@ const questions = [
 const students = ["Lynn", "Tamara", "John", "James", "Grace"];
 
 const App = () => {
-  const [color, setColor] = useState("white");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [objectStudents, setObjectStudents] = useState(
+    students.map((student) => ({ id: uuidv4(), student, state: " " }))
+  );
 
-  const handleClick = () => {
-    if (color === "white") {
-      setColor("blue");
-    } else if (color === "blue") {
-      setColor("green");
-    } else if (color === "green") {
-      setColor("white");
-    }
-  };
+  console.log(objectStudents);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -112,16 +108,22 @@ const App = () => {
 
   return (
     <>
+      <Header />
       <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "20px" }}>
         <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
           <Table aria-label="simple table" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell style={{ backgroundColor: "yellow" }} >
+                <TableCell align="left" style={{ backgroundColor: "violet" }}>
                   "Did the Team Member..."
                 </TableCell>
                 {students.map((student) => (
-                  <TableCell align="right">{student}</TableCell>
+                  <TableCell
+                    align="right"
+                    style={{ backgroundColor: "violet" }}
+                  >
+                    {student}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -133,9 +135,13 @@ const App = () => {
                     <TableCell component="th" scope="row">
                       {row}
                     </TableCell>
-                    {students.map((student) => (
+                    {objectStudents.map((student) => (
                       <TableCell align="right">
-                        <Checkbox />
+                        <CustomCheckbox
+                          index={student.id}
+                          objectStudents={objectStudents}
+                          setObjectStudents={setObjectStudents}
+                        />
                       </TableCell>
                     ))}
                   </TableRow>
@@ -153,6 +159,26 @@ const App = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="filled-basic"
+          label="Comments"
+          variant="filled"
+          multiline
+          color="secondary"
+          style={{ marginTop: "20px", width: "100%" }}
+        />
+        <Button disabled color="secondary" variant="contained" type="submit">
+          Submit
+        </Button>
+      </Box>
     </>
   );
 };
