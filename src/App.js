@@ -92,7 +92,10 @@ const App = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [objectStudents, setObjectStudents] = useState(
-    students.map((student) => ({ id: uuidv4(), student, state: " " }))
+    students.map((student) => ({ id: uuidv4(), student, state: "Empty" }))
+  );
+  const [objectQuestions, setObjectQuestions] = useState(
+    questions.map((question) => ({ id: uuidv4(), question}))
   );
 
   console.log(objectStudents);
@@ -128,17 +131,18 @@ const App = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {questions
+              {objectQuestions
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
-                  <TableRow key={uuidv4()} hover>
+                  <TableRow key={row.id} hover>
                     <TableCell component="th" scope="row">
-                      {row}
+                      {row.question}
                     </TableCell>
                     {objectStudents.map((student) => (
                       <TableCell align="right">
                         <CustomCheckbox
                           index={student.id}
+                          question={row.id}
                           objectStudents={objectStudents}
                           setObjectStudents={setObjectStudents}
                         />
@@ -162,7 +166,7 @@ const App = () => {
       <Box
         component="form"
         sx={{
-          "& > :not(style)": { m: 1, width: "25ch",marginLeft:'0' },
+          "& > :not(style)": { m: 1, width: "25ch", marginLeft: "0" },
         }}
         noValidate
         autoComplete="off"
