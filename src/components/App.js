@@ -40,6 +40,8 @@ const questions = [
 const App = () => {
   const [students, setStudents] = useState([]);
   const [objectStudents, setObjectStudents] = useState([]);
+  const [comment, setComment]=useState(' ');
+
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
   useEffect(() => {
@@ -81,6 +83,7 @@ const App = () => {
     }
     return false;
   };
+  console.log(comment)
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -121,7 +124,7 @@ const App = () => {
                       {row.question}
                     </TableCell>
                     {objectStudents.map((student) => (
-                      <TableCell align="right">
+                      <TableCell align="right" style={{wordBreak:'break-all'}}>
                         <CustomCheckbox
                           studentId={student.student}
                           questionId={row.id}
@@ -162,12 +165,14 @@ const App = () => {
           multiline
           color="secondary"
           style={{ marginTop: '20px', width: '100%' }}
+          onChange={(e)=>setComment(e.target.value)}
         />
         <Button
           disabled={disableButton()}
           color="secondary"
           variant="contained"
-          type="submit"
+          // type="submit"
+          onClick={()=>setComment(comment)}
         >
           Submit
         </Button>
