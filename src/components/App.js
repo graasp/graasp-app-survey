@@ -58,6 +58,7 @@ const App = () => {
   const [objectStudents, setObjectStudents] = useState([]);
   const [comment, setComment] = useState(' ');
   const [questionStudent, setQuestionStudent] = useState([]);
+  const [objectQuestions, setObjectQuestions] = useState([]);
 
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
@@ -80,6 +81,14 @@ const App = () => {
   // }, [appData, isAppDataSuccess, isAppDataLoading]);
   useEffect(() => {
     if (isAppContextSuccess) {
+      setObjectQuestions(
+        questions.map((question, index) => ({
+          id: uuidv4(),
+          question,
+          position: index,
+        })),
+      );
+
       // setStudents(appContext?.get('members').map((std) => std.name));
       setObjectStudents(
         appContext
@@ -95,14 +104,6 @@ const App = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [objectQuestions, setObjectQuestions] = useState(
-    questions.map((question, index) => ({
-      id: uuidv4(),
-      question,
-      position: index,
-    })),
-  );
 
   const disableButton = () => {
     if (questionStudent.filter((e) => e.state === 'Empty').length > 0) {
