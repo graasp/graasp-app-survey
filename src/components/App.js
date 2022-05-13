@@ -132,14 +132,14 @@ const App = () => {
               <TableRow>
                 <TableCell
                   align="left"
-                  style={{ color: 'white', backgroundColor: '#9140bf' }}
+                  style={{ color: 'white', backgroundColor: 'rgb(145,33,162)' }}
                 >
                   "Did the Team Member..."
                 </TableCell>
                 {objectStudents.map((student) => (
                   <TableCell
                     align="right"
-                    style={{ color: 'white', backgroundColor: '#9140bf' }}
+                    style={{ color: 'white', backgroundColor: 'rgb(145,33,162)' }}
                   >
                     {student.student}
                   </TableCell>
@@ -188,8 +188,8 @@ const App = () => {
         />
         <Button
           disabled={disableButton()}
-          style={{ color: '#9140bf' }}
           variant="contained"
+          color="secondary"
           // type="submit"
           onClick={() => setComment(comment)}
         >
