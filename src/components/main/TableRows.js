@@ -3,7 +3,9 @@ import TableCell from '@material-ui/core/TableCell';
 import CustomCheckbox from './CustomCheckBox';
 
 
-const CheckBoxes=(props)=>{
+
+const TableRows=(props)=>{
+
 
     return(
         <>
@@ -42,4 +44,4 @@ const CheckBoxes=(props)=>{
 
 
 
-export default CheckBoxes;
+export default TableRows;

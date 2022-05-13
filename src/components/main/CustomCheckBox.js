@@ -1,53 +1,42 @@
-import { useEffect, useState } from "react";
-import Checkbox from "@mui/material/Checkbox";
+import { useEffect, useState } from 'react';
+import Checkbox from '@mui/material/Checkbox';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 import { useAppContext } from '../context/appData';
 import { ACTION_TYPES } from '../../config/actionTypes';
-
+import { APP_DATA_TYPES } from '../../config/appDataTypes';
 
 const CHECKBOX_STATES = {
-  Positive: "Positive",
-  NonApplicable: "NonApplicable",
-  Negative: "Negative",
-  Empty: "Empty",
+  Positive: 'Positive',
+  NonApplicable: 'NonApplicable',
+  Negative: 'Negative',
+  Empty: 'Empty',
 };
 
 const CustomCheckbox = (props) => {
-
   const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
   const { mutate: postAction } = useMutation(MUTATION_KEYS.POST_APP_ACTION);
 
-
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
-  useEffect(() => {
-    if (isAppContextSuccess) {
-      setQuestionStudent(props.questionStudent);
-
-    }
-  }, [appContext, isAppContextSuccess]);
   const [positive, setPositive] = useState(false);
   const [nonApplicable, setNonApplicable] = useState(false);
   const [negative, setNegative] = useState(false);
   const [empty, setEmpty] = useState(true);
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
-  const [questionStudent, setQuestionStudent] = useState([
-    props.questionStudent,
-  ]);
 
-  useEffect(() => {
-    setQuestionStudent(props.questionStudent);
-  },[]);
-
-
+  // useEffect(() => {
+  //   console.log(props.questionStudent);
+  // }, []);
 
   // props.stdObjects.forEach((obj)=>console.log(obj.content._store.valueOf()))
 
   const updateObject = (arr, index, question, status) => {
     const newArray = arr.map((obj) => {
       if (obj.studentId === index && obj.questionId === question) {
+        
         return { ...obj, state: status };
       }
+      console.log(obj)
       return obj;
     });
     return newArray;
@@ -92,16 +81,9 @@ const CustomCheckbox = (props) => {
         props.questionStudent,
         props.studentId,
         props.questionId,
-        updatedChecked
-      )
+        updatedChecked,
+      ),
     );
-    postAppData(questionStudent)
-    postAction({
-      type: ACTION_TYPES.CHECK,
-      data: {
-        questionStudent
-      },
-    });
 
     // props.setObjectStudents(
     //   updateObject(props.objectStudents, props.index, updatedChecked)
@@ -112,8 +94,8 @@ const CustomCheckbox = (props) => {
     if (isChecked === CHECKBOX_STATES.Positive) {
       return (
         <Checkbox
-          checked={positive ? true : " "}
-          style={{ color: "green" }}
+          checked={positive ? true : ' '}
+          style={{ color: 'green' }}
           onClick={handleChange}
         />
       );
@@ -121,20 +103,20 @@ const CustomCheckbox = (props) => {
     if (isChecked === CHECKBOX_STATES.Negative) {
       return (
         <Checkbox
-          checked={negative ? true : " "}
-          style={{ color: "red" }}
+          checked={negative ? true : ' '}
+          style={{ color: 'red' }}
           onClick={handleChange}
         />
       );
     }
     if (isChecked === CHECKBOX_STATES.Empty) {
-      return <Checkbox checked={empty ? false : " "} onClick={handleChange} />;
+      return <Checkbox checked={empty ? false : ' '} onClick={handleChange} />;
     }
     if (isChecked === CHECKBOX_STATES.NonApplicable) {
       return (
         <Checkbox
-          checked={nonApplicable ? true : " "}
-          style={{ color: "orange" }}
+          checked={nonApplicable ? true : ' '}
+          style={{ color: 'orange' }}
           onClick={handleChange}
         />
       );

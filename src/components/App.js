@@ -1,22 +1,19 @@
 import { useState, useEffect } from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableBody from '@material-ui/core/TableBody';
 import TablePagination from '@mui/material/TablePagination';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import { v4 as uuidv4 } from 'uuid';
-import CustomCheckbox from './main/CustomCheckBox';
 import Header from './main/Header';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { useAppContext } from './context/appData';
 import { useAppData } from './context/appData';
 import { APP_DATA_TYPES } from '../config/appDataTypes';
-import CheckBoxes from './main/CheckBoxes';
+import TableRows from './main/TableRows';
+import ColumnNames from './main/ColumnNames';
+import CommentSection from './main/CommentSection';
 
 const questions = [
   'Attend nearly all team meetings?',
@@ -49,6 +46,7 @@ const App = () => {
           studentId: std.student,
           questionId: quest.id,
           state: 'Empty',
+          type:APP_DATA_TYPES.CHECK,
         });
       }
     }
@@ -56,11 +54,17 @@ const App = () => {
   };
 
   const [objectStudents, setObjectStudents] = useState([]);
-  const [comment, setComment] = useState(' ');
   const [questionStudent, setQuestionStudent] = useState([]);
-  const [objectQuestions, setObjectQuestions] = useState([]);
+  const [objectQuestions, setObjectQuestions] = useState(
+    questions.map((question, index) => ({
+      id: uuidv4(),
+      question,
+      position: index,
+    })),
+  );
 
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
+
 
   const {
     data: appData,
@@ -69,27 +73,16 @@ const App = () => {
     isLoading: isAppDataLoading,
   } = useAppData();
 
-  // useEffect(() => {
-  //   if (isAppDataSuccess && !isAppDataLoading) {
-  //     const newTasks = appData.filter(
-  //       ({ type }) => type === APP_DATA_TYPES.CHECK,
-  //     );
-  //     if (newTasks) {
-  //       setQuestionStudent(newTasks);
-  //     }
-  //   }
-  // }, [appData, isAppDataSuccess, isAppDataLoading]);
   useEffect(() => {
-    if (isAppContextSuccess) {
-      setObjectQuestions(
-        questions.map((question, index) => ({
-          id: uuidv4(),
-          question,
-          position: index,
-        })),
+    if (isAppDataSuccess && !isAppDataLoading) {
+      const newTasks = appData.filter(
+        ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
-
-      // setStudents(appContext?.get('members').map((std) => std.name));
+      if (newTasks) {
+        setQuestionStudent(newTasks);
+      }
+    }
+    if (isAppContextSuccess) {
       setObjectStudents(
         appContext
           ?.get('members')
@@ -104,14 +97,6 @@ const App = () => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const disableButton = () => {
-    if (questionStudent.filter((e) => e.state === 'Empty').length > 0) {
-      console.log(questionStudent.filter((e) => e.state === 'Empty').length);
-      return true;
-    }
-    return false;
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -130,24 +115,11 @@ const App = () => {
           <Table aria-label="simple table" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell
-                  align="left"
-                  style={{ color: 'white', backgroundColor: 'rgb(145,33,162)' }}
-                >
-                  "Did the Team Member..."
-                </TableCell>
-                {objectStudents.map((student) => (
-                  <TableCell
-                    align="right"
-                    style={{ color: 'white', backgroundColor: 'rgb(145,33,162)' }}
-                  >
-                    {student.student}
-                  </TableCell>
-                ))}
+                <ColumnNames objectStudents={objectStudents} />
               </TableRow>
             </TableHead>
             <TableBody>
-              <CheckBoxes
+              <TableRows
                 objectQuestions={objectQuestions}
                 objectStudents={objectStudents}
                 setObjectStudents={setObjectStudents}
@@ -169,33 +141,7 @@ const App = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <Box
-        component="form"
-        sx={{
-          '& > :not(style)': { m: 1, width: '25ch', marginLeft: '0' },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="filled-basic"
-          label="Comments"
-          variant="filled"
-          multiline
-          color="secondary"
-          style={{ marginTop: '20px', width: '100%' }}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <Button
-          disabled={disableButton()}
-          variant="contained"
-          color="secondary"
-          // type="submit"
-          onClick={() => setComment(comment)}
-        >
-          Submit
-        </Button>
-      </Box>
+      <CommentSection questionStudent={questionStudent} />
     </div>
   );
 };
