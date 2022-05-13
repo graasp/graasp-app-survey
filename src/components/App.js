@@ -105,13 +105,13 @@ const App = () => {
           <Table aria-label="simple table" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell align="left" style={{ backgroundColor: 'violet' }}>
+                <TableCell align="left" style={{ backgroundColor: 'rgb(70,82,198)' }}>
                   "Did the Team Member..."
                 </TableCell>
                 {objectStudents.map((student) => (
                   <TableCell
                     align="right"
-                    style={{ backgroundColor: 'violet' }}
+                    style={{ backgroundColor: 'rgb(70,82,198)' }}
                   >
                     {student.student}
                   </TableCell>
@@ -174,7 +174,7 @@ const App = () => {
         />
         <Button
           disabled={disableButton()}
-          color="secondary"
+          style={{color:"rgb(70,82,198)"}}
           variant="contained"
           // type="submit"
           onClick={() => setComment(comment)}
