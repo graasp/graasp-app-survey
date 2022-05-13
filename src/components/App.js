@@ -14,6 +14,9 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useAppContext } from './context/appData';
+import { useAppData } from './context/appData';
+import { APP_DATA_TYPES } from '../config/appDataTypes';
+import CheckBoxes from './main/CheckBoxes';
 
 const questions = [
   'Attend nearly all team meetings?',
@@ -43,6 +46,7 @@ const App = () => {
     for (let quest of questArr) {
       for (let std of stdArr) {
         arr.push({
+          id: uuidv4(),
           studentId: std.student,
           questionId: quest.id,
           state: 'Empty',
@@ -58,6 +62,23 @@ const App = () => {
 
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
+  const {
+    data: appData,
+    isSuccess: isAppDataSuccess,
+    // isStale: isAppDataStale,
+    isLoading: isAppDataLoading,
+  } = useAppData();
+
+  // useEffect(() => {
+  //   if (isAppDataSuccess && !isAppDataLoading) {
+  //     const newTasks = appData.filter(
+  //       ({ type }) => type === APP_DATA_TYPES.CHECK,
+  //     );
+  //     if (newTasks) {
+  //       setQuestionStudent(newTasks);
+  //     }
+  //   }
+  // }, [appData, isAppDataSuccess, isAppDataLoading]);
   useEffect(() => {
     if (isAppContextSuccess) {
       // setStudents(appContext?.get('members').map((std) => std.name));
@@ -77,7 +98,11 @@ const App = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [objectQuestions, setObjectQuestions] = useState(
-    questions.map((question,index) => ({ id: uuidv4(), question, position:index })),
+    questions.map((question, index) => ({
+      id: uuidv4(),
+      question,
+      position: index,
+    })),
   );
 
   const disableButton = () => {
@@ -105,7 +130,10 @@ const App = () => {
           <Table aria-label="simple table" stickyHeader>
             <TableHead>
               <TableRow>
-                <TableCell align="left" style={{ backgroundColor: 'rgb(70,82,198)' }}>
+                <TableCell
+                  align="left"
+                  style={{ backgroundColor: 'rgb(70,82,198)' }}
+                >
                   "Did the Team Member..."
                 </TableCell>
                 {objectStudents.map((student) => (
@@ -119,7 +147,7 @@ const App = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {objectQuestions
+              {/* {objectQuestions
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow key={row.id} hover>
@@ -141,7 +169,16 @@ const App = () => {
                       </TableCell>
                     ))}
                   </TableRow>
-                ))}
+                ))} */}
+              <CheckBoxes
+                objectQuestions={objectQuestions}
+                objectStudents={objectStudents}
+                setObjectStudents={setObjectStudents}
+                questionStudent={questionStudent}
+                setQuestionStudent={setQuestionStudent}
+                page={page}
+                rowsPerPage={rowsPerPage}
+              />
             </TableBody>
           </Table>
         </TableContainer>
@@ -174,7 +211,7 @@ const App = () => {
         />
         <Button
           disabled={disableButton()}
-          style={{color:"rgb(70,82,198)"}}
+          style={{ color: 'rgb(70,82,198)' }}
           variant="contained"
           // type="submit"
           onClick={() => setComment(comment)}

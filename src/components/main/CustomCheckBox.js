@@ -95,11 +95,11 @@ const CustomCheckbox = (props) => {
         updatedChecked
       )
     );
-    postAppData(props.questionStudent)
+    postAppData(questionStudent)
     postAction({
       type: ACTION_TYPES.CHECK,
       data: {
-        everything:props.questionStudent
+        questionStudent
       },
     });
 
