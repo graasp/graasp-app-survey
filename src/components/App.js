@@ -38,7 +38,6 @@ const questions = [
   'Demonstrate an ability to do research and gather information?',
   'Shows an ability to distinguish between the important and the trivial?',
 ];
-// const students = ["Lynn", "Tamara", "John", "James", "Grace"];
 
 const App = () => {
   const generateQuestionStudents = (stdArr, questArr) => {
@@ -132,14 +131,14 @@ const App = () => {
               <TableRow>
                 <TableCell
                   align="left"
-                  style={{ backgroundColor: 'rgb(70,82,198)' }}
+                  style={{ color: 'white', backgroundColor: '#9140bf' }}
                 >
                   "Did the Team Member..."
                 </TableCell>
                 {objectStudents.map((student) => (
                   <TableCell
                     align="right"
-                    style={{ backgroundColor: 'rgb(70,82,198)' }}
+                    style={{ color: 'white', backgroundColor: '#9140bf' }}
                   >
                     {student.student}
                   </TableCell>
@@ -147,29 +146,6 @@ const App = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* {objectQuestions
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => (
-                  <TableRow key={row.id} hover>
-                    <TableCell component="th" scope="row">
-                      {row.position+1}. {row.question}
-                    </TableCell>
-                    {objectStudents.map((student) => (
-                      <TableCell
-                        align="right"
-                      >
-                        <CustomCheckbox
-                          studentId={student.student}
-                          questionId={row.id}
-                          objectStudents={objectStudents}
-                          setObjectStudents={setObjectStudents}
-                          questionStudent={questionStudent}
-                          setQuestionStudent={setQuestionStudent}
-                        />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))} */}
               <CheckBoxes
                 objectQuestions={objectQuestions}
                 objectStudents={objectStudents}
@@ -211,7 +187,7 @@ const App = () => {
         />
         <Button
           disabled={disableButton()}
-          style={{ color: 'rgb(70,82,198)' }}
+          style={{ color: '#9140bf' }}
           variant="contained"
           // type="submit"
           onClick={() => setComment(comment)}
