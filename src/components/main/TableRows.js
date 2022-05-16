@@ -16,9 +16,10 @@ const TableRows=(props)=>{
             <TableCell component="th" scope="row">
               {row.position+1}. {row.question}
             </TableCell>
-            {props.objectStudents.map((student) => (
+            {props.objectStudents.map((student,index) => (
               <TableCell
                 align="right"
+                key={index}
               >
                 <CustomCheckbox
                   studentId={student.student}
