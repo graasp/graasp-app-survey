@@ -8,9 +8,9 @@ const CommentSection = (props) => {
 
   const disableButton = () => {
     if (props.questionStudent.filter((e) => e.state === 'Empty').length > 0) {
-      console.log(
-        props.questionStudent.filter((e) => e.state === 'Empty').length,
-      );
+      // console.log(
+      //   props.questionStudent.filter((e) => e.state === 'Empty').length,
+      // );
       return true;
     }
     return false;

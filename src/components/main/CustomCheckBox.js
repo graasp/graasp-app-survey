@@ -36,7 +36,7 @@ const CustomCheckbox = (props) => {
         
         return { ...obj, state: status };
       }
-      console.log(obj)
+      // console.log(obj)
       return obj;
     });
     return newArray;
