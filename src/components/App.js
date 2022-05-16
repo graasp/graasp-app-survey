@@ -45,7 +45,7 @@ const App = () => {
           id: uuidv4(),
           studentId: std.student,
           questionId: quest.question,
-          state: 'Positive',
+          state: 'Empty',
           type: APP_DATA_TYPES.CHECK,
         });
       }
@@ -77,7 +77,7 @@ const App = () => {
     }
   }, [appContext, isAppContextSuccess]);
 
-  console.log(objectStudents);
+  // console.log(objectStudents);
 
   const {
     data: appData,
