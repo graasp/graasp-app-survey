@@ -44,17 +44,16 @@ const App = () => {
         arr.push({
           id: uuidv4(),
           studentId: std.student,
-          questionId: quest.id,
-          state: 'Empty',
-          type:APP_DATA_TYPES.CHECK,
+          questionId: quest.question,
+          state: 'Positive',
+          type: APP_DATA_TYPES.CHECK,
         });
       }
     }
     return arr;
   };
+  const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
-  const [objectStudents, setObjectStudents] = useState([]);
-  const [questionStudent, setQuestionStudent] = useState([]);
   const [objectQuestions, setObjectQuestions] = useState(
     questions.map((question, index) => ({
       id: uuidv4(),
@@ -62,26 +61,9 @@ const App = () => {
       position: index,
     })),
   );
-
-  const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
-
-
-  const {
-    data: appData,
-    isSuccess: isAppDataSuccess,
-    // isStale: isAppDataStale,
-    isLoading: isAppDataLoading,
-  } = useAppData();
-
+  const [objectStudents, setObjectStudents] = useState([]);
+  const [questionStudent, setQuestionStudent] = useState([]);
   useEffect(() => {
-    if (isAppDataSuccess && !isAppDataLoading) {
-      const newTasks = appData.filter(
-        ({ type }) => type === APP_DATA_TYPES.CHECK,
-      );
-      if (newTasks) {
-        setQuestionStudent(newTasks);
-      }
-    }
     if (isAppContextSuccess) {
       setObjectStudents(
         appContext
@@ -94,6 +76,48 @@ const App = () => {
       );
     }
   }, [appContext, isAppContextSuccess]);
+
+  console.log(objectStudents);
+
+  const {
+    data: appData,
+    isSuccess: isAppDataSuccess,
+    // isStale: isAppDataStale,
+    isLoading: isAppDataLoading,
+  } = useAppData();
+
+  // useEffect(() => {
+  //   if (isAppDataSuccess && !isAppDataLoading) {
+  //     const newTasks = appData.filter(
+  //       ({ type }) => type === APP_DATA_TYPES.CHECK,
+  //     );
+  //     if (newTasks) {
+  //       setQuestionStudent(newTasks);
+  //       console.log(newTasks)
+
+  //     }
+  //   }
+  //   if (isAppContextSuccess) {
+  //     setObjectStudents(
+  //       appContext
+  //         ?.get('members')
+  //         .map((std) => std.name)
+  //         .map((student) => ({ id: uuidv4(), student })),
+  //     );
+  //     setQuestionStudent(
+  //       generateQuestionStudents(objectStudents, objectQuestions),
+  //     );
+
+  //     // console.log(questionStudent)
+
+  //   //   const newTasks = appData.filter(
+  //   //     ({ type }) => type === APP_DATA_TYPES.CHECK,
+  //   //   );
+  //   //   if (newTasks) {
+  //   //     setQuestionStudent(newTasks);
+  //   //   }
+  //   }
+  // }, [appContext, isAppContextSuccess]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
