@@ -12,13 +12,14 @@ return(<>
     >
       "Did the Team Member..."
     </TableCell>
-    {props.objectStudents.map((student) => (
+    {props.objectStudents.map((student,index) => (
       <TableCell
         align="right"
         style={{
           color: 'white',
           backgroundColor: 'rgb(145,33,162)',
         }}
+        key={index}
       >
         {student.student}
       </TableCell>
