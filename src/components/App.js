@@ -9,11 +9,11 @@ import Paper from '@material-ui/core/Paper';
 import { v4 as uuidv4 } from 'uuid';
 import Header from './main/Header';
 import { useAppContext } from './context/appData';
-import { useAppData } from './context/appData';
 import { APP_DATA_TYPES } from '../config/appDataTypes';
 import TableRows from './main/TableRows';
 import ColumnNames from './main/ColumnNames';
 import CommentSection from './main/CommentSection';
+import { DEFAULT_CHECK,DEFAULT_CHECK_DATA } from '../constants/constants';
 
 const questions = [
   'Attend nearly all team meetings?',
@@ -42,11 +42,14 @@ const App = () => {
     for (let quest of questArr) {
       for (let std of stdArr) {
         arr.push({
+          ...DEFAULT_CHECK,
           id: uuidv4(),
           studentId: std.student,
           questionId: quest.question,
-          state: 'Empty',
+          data:{
+            ...DEFAULT_CHECK_DATA,
           type: APP_DATA_TYPES.CHECK,
+          }
         });
       }
     }
@@ -76,48 +79,7 @@ const App = () => {
       );
     }
   }, [appContext, isAppContextSuccess]);
-
-  // console.log(objectStudents);
-
-  const {
-    data: appData,
-    isSuccess: isAppDataSuccess,
-    // isStale: isAppDataStale,
-    isLoading: isAppDataLoading,
-  } = useAppData();
-
-  // useEffect(() => {
-  //   if (isAppDataSuccess && !isAppDataLoading) {
-  //     const newTasks = appData.filter(
-  //       ({ type }) => type === APP_DATA_TYPES.CHECK,
-  //     );
-  //     if (newTasks) {
-  //       setQuestionStudent(newTasks);
-  //       console.log(newTasks)
-
-  //     }
-  //   }
-  //   if (isAppContextSuccess) {
-  //     setObjectStudents(
-  //       appContext
-  //         ?.get('members')
-  //         .map((std) => std.name)
-  //         .map((student) => ({ id: uuidv4(), student })),
-  //     );
-  //     setQuestionStudent(
-  //       generateQuestionStudents(objectStudents, objectQuestions),
-  //     );
-
-  //     // console.log(questionStudent)
-
-  //   //   const newTasks = appData.filter(
-  //   //     ({ type }) => type === APP_DATA_TYPES.CHECK,
-  //   //   );
-  //   //   if (newTasks) {
-  //   //     setQuestionStudent(newTasks);
-  //   //   }
-  //   }
-  // }, [appContext, isAppContextSuccess]);
+  console.log(questionStudent)
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

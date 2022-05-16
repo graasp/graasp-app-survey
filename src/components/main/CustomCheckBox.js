@@ -4,6 +4,7 @@ import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 import { useAppContext } from '../context/appData';
 import { ACTION_TYPES } from '../../config/actionTypes';
 import { APP_DATA_TYPES } from '../../config/appDataTypes';
+import { DEFAULT_CHECK } from '../../constants/constants';
 
 const CHECKBOX_STATES = {
   Positive: 'Positive',
@@ -34,12 +35,11 @@ const CustomCheckbox = (props) => {
     const newArray = arr.map((obj) => {
       if (obj.studentId === index && obj.questionId === question) {
 
-        return { ...obj, state: status };
+        console.log({ ...obj, data:{state: status} })
+        return { ...obj, data:{state: status} };
       }
-      console.log('heyyy')
       return obj;
     });
-    // console.log('neww',newArray)
 
     return newArray;
   };
@@ -86,7 +86,6 @@ const CustomCheckbox = (props) => {
         updatedChecked,
       ),
     );
-    // postAppData(props.questionStudent)
     // props.setObjectStudents(
     //   updateObject(props.objectStudents, props.index, updatedChecked)
     // );
