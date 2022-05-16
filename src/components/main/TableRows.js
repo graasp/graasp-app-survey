@@ -23,7 +23,7 @@ const TableRows=(props)=>{
               >
                 <CustomCheckbox
                   studentId={student.student}
-                  questionId={row.id}
+                  questionId={row.question}
                   objectStudents={props.objectStudents}
                   setObjectStudents={props.setObjectStudents}
                   questionStudent={props.questionStudent}

@@ -34,13 +34,12 @@ const CustomCheckbox = (props) => {
     const newArray = arr.map((obj) => {
       if (obj.studentId === index && obj.questionId === question) {
 
-        console.log({ ...obj, state: status })
         return { ...obj, state: status };
       }
-      console.log(obj)
+      console.log('heyyy')
       return obj;
     });
-    console.log('neww',newArray)
+    // console.log('neww',newArray)
 
     return newArray;
   };
