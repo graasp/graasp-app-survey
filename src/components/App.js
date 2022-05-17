@@ -10,10 +10,12 @@ import { v4 as uuidv4 } from 'uuid';
 import Header from './main/Header';
 import { useAppContext } from './context/appData';
 import { APP_DATA_TYPES } from '../config/appDataTypes';
+import { MUTATION_KEYS, useMutation } from '../config/queryClient';
+import { useAppData } from './context/appData';
 import TableRows from './main/TableRows';
 import ColumnNames from './main/ColumnNames';
 import CommentSection from './main/CommentSection';
-import { DEFAULT_CHECK,DEFAULT_CHECK_DATA } from '../constants/constants';
+import { DEFAULT_CHECK, DEFAULT_CHECK_DATA } from '../constants/constants';
 
 const questions = [
   'Attend nearly all team meetings?',
@@ -43,18 +45,19 @@ const App = () => {
       for (let std of stdArr) {
         arr.push({
           ...DEFAULT_CHECK,
-          id: uuidv4(),
-          studentId: std.student,
-          questionId: quest.question,
-          data:{
+          // id: uuidv4(),
+          data: {
             ...DEFAULT_CHECK_DATA,
-          }
+            studentId: std.student,
+            questionId: quest.question,
+          },
         });
       }
     }
     return arr;
   };
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
+  const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
 
   const [objectQuestions, setObjectQuestions] = useState(
     questions.map((question, index) => ({
@@ -68,17 +71,42 @@ const App = () => {
 
   useEffect(() => {
     if (isAppContextSuccess) {
+      // Generate an array of students where each student is an object having an id and a name
       setObjectStudents(
         appContext
           ?.get('members')
           .map((std) => std.name)
           .map((student) => ({ id: uuidv4(), student })),
       );
-      setQuestionStudent(
-        generateQuestionStudents(objectStudents, objectQuestions),
-      );
     }
   }, [appContext, isAppContextSuccess]);
+
+  const {
+    data: appData,
+    isSuccess: isAppDataSuccess,
+    // isStale: isAppDataStale,
+    isLoading: isAppDataLoading,
+  } = useAppData();
+
+  useEffect(() => {
+    if (isAppDataSuccess && !isAppDataLoading) {
+      console.log('hioiii')
+      const newChecks = appData.filter(
+        ({ type }) => type === APP_DATA_TYPES.CHECK,
+      );
+      if (newChecks._tail===null) {
+        console.log('newww',newChecks);
+        setQuestionStudent(newChecks);
+      } else {
+        // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
+        setQuestionStudent(
+          generateQuestionStudents(objectStudents, objectQuestions),
+        );
+        postAppData(questionStudent);
+      }
+    }
+  }, [appData, isAppDataSuccess, isAppDataLoading]);
+
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
