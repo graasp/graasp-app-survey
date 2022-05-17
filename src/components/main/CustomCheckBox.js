@@ -27,20 +27,23 @@ const CustomCheckbox = (props) => {
 
   // props.stdObjects.forEach((obj)=>console.log(obj.content._store.valueOf()))
 
-  useEffect(()=>{
-    console.log(isChecked)
-    console.log(props.questionStudent)
-  })
+  useEffect(() => {
+    if (props.questionStudent.length !== 0) {
+      console.log(props.questionStudent);
+    }
+  });
   const updateObject = (arr, index, question, status) => {
     const newArray = arr.map((obj) => {
       if (obj.studentId === index && obj.questionId === question) {
+        const newObject = { ...obj,data: { ...obj.data, state: status } };
 
-        console.log({ ...obj, data:{state: status} })
-        return { ...obj, data:{state: status} };
+        postAppData(newObject);
+
+        return newObject;
       }
       return obj;
     });
-
+    console.log(newArray);
     return newArray;
   };
 
@@ -97,7 +100,7 @@ const CustomCheckbox = (props) => {
         <Checkbox
           checked={positive ? true : ' '}
           style={{ color: 'green' }}
-          onClick={()=>handleChange()}
+          onClick={() => handleChange()}
         />
       );
     }

@@ -48,7 +48,6 @@ const App = () => {
           questionId: quest.question,
           data:{
             ...DEFAULT_CHECK_DATA,
-          type: APP_DATA_TYPES.CHECK,
           }
         });
       }
@@ -66,6 +65,7 @@ const App = () => {
   );
   const [objectStudents, setObjectStudents] = useState([]);
   const [questionStudent, setQuestionStudent] = useState([]);
+
   useEffect(() => {
     if (isAppContextSuccess) {
       setObjectStudents(
@@ -79,7 +79,6 @@ const App = () => {
       );
     }
   }, [appContext, isAppContextSuccess]);
-  console.log(questionStudent)
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
