@@ -3,8 +3,6 @@ import TableCell from '@material-ui/core/TableCell';
 import CustomCheckbox from './CustomCheckBox';
 
 const TableRows = (props) => {
-  const hey = props.questionStudent.filter(({ data }) => data.questionId);
-  console.log('heyy', hey);
   return (
     <>
       {props.objectQuestions

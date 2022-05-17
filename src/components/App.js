@@ -100,9 +100,7 @@ const App = () => {
       );
       if (newChecks._tail) {
         setQuestionStudent(newChecks._tail.array);
-        console.log('neww', questionStudent);
       } else {
-        console.log('hiiii');
         // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),

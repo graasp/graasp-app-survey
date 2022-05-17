@@ -7,10 +7,8 @@ const CommentSection = (props) => {
   const [comment, setComment] = useState(' ');
 
   const disableButton = () => {
-    if (props.questionStudent.filter((e) => e.state === 'Empty').length > 0) {
-      // console.log(
-      //   props.questionStudent.filter((e) => e.state === 'Empty').length,
-      // );
+    if (props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0) {
+     console.log(props.questionStudent.filter((e) => e.data.state === 'Empty'))
       return true;
     }
     return false;
