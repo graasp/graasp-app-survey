@@ -16,6 +16,7 @@ const CHECKBOX_STATES = {
 const CustomCheckbox = (props) => {
   const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
   const { mutate: postAction } = useMutation(MUTATION_KEYS.POST_APP_ACTION);
+  const { mutate: patchAppData } = useMutation(MUTATION_KEYS.PATCH_APP_DATA);
 
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
@@ -27,23 +28,23 @@ const CustomCheckbox = (props) => {
 
   // props.stdObjects.forEach((obj)=>console.log(obj.content._store.valueOf()))
 
-  useEffect(() => {
-    if (props.questionStudent.length !== 0) {
-      console.log(props.questionStudent);
-    }
-  });
+  // useEffect(() => {
+  //   if (props.questionStudent.length !== 0) {
+  //     console.log(props.questionStudent);
+  //   }
+  // });
   const updateObject = (arr, index, question, status) => {
     const newArray = arr.map((obj) => {
-      if (obj.studentId === index && obj.questionId === question) {
-        const newObject = { ...obj,data: { ...obj.data, state: status } };
+      if (obj.data.studentId === index && obj.data.questionId === question) {
 
-        postAppData(newObject);
+        const newObject = { ...obj, data: { ...obj.data, state: status } };
+        patchAppData(newObject);
 
         return newObject;
       }
       return obj;
     });
-    console.log(newArray);
+    // console.log(newArray);
     return newArray;
   };
 
