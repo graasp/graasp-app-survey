@@ -38,12 +38,15 @@ const questions = [
   'Shows an ability to distinguish between the important and the trivial?',
 ];
 
+
+
 const App = () => {
+
   const generateQuestionStudents = (stdArr, questArr) => {
     const arr = [];
     for (let quest of questArr) {
       for (let std of stdArr) {
-        const newObject={
+        const newObject = {
           ...DEFAULT_CHECK,
           id: uuidv4(),
           data: {
@@ -51,8 +54,8 @@ const App = () => {
             studentId: std.student,
             questionId: quest.question,
           },
-        }
-        postAppData(newObject)
+        };
+        postAppData(newObject);
         arr.push(newObject);
       }
     }
@@ -96,8 +99,10 @@ const App = () => {
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
       if (newChecks._tail) {
-        setQuestionStudent(newChecks);
+        setQuestionStudent(newChecks._tail.array);
+        console.log('neww', questionStudent);
       } else {
+        console.log('hiiii');
         // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
@@ -105,7 +110,6 @@ const App = () => {
       }
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
-
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
