@@ -90,23 +90,23 @@ const App = () => {
 
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
-      console.log('hioiii')
       const newChecks = appData.filter(
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
-      if (newChecks._tail===null) {
-        console.log('newww',newChecks);
+      if (newChecks._tail) {
         setQuestionStudent(newChecks);
       } else {
         // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
         );
+
         postAppData(questionStudent);
       }
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
 
+  // console.log(questionStudent)
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
