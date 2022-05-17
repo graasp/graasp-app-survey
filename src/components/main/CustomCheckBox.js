@@ -44,7 +44,7 @@ const CustomCheckbox = (props) => {
       }
       return obj;
     });
-    // console.log(newArray);
+    console.log(newArray);
     return newArray;
   };
 

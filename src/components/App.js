@@ -43,15 +43,17 @@ const App = () => {
     const arr = [];
     for (let quest of questArr) {
       for (let std of stdArr) {
-        arr.push({
+        const newObject={
           ...DEFAULT_CHECK,
-          // id: uuidv4(),
+          id: uuidv4(),
           data: {
             ...DEFAULT_CHECK_DATA,
             studentId: std.student,
             questionId: quest.question,
           },
-        });
+        }
+        postAppData(newObject)
+        arr.push(newObject);
       }
     }
     return arr;
@@ -100,13 +102,10 @@ const App = () => {
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
         );
-
-        postAppData(questionStudent);
       }
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
 
-  // console.log(questionStudent)
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
