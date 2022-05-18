@@ -1,7 +1,7 @@
 import { APP_DATA_TYPES } from '../config/appDataTypes';
 
 /* eslint-disable import/prefer-default-export */
-export const RE_FETCH_INTERVAL = 60000; // Default: 1500
+export const RE_FETCH_INTERVAL = 1000000000000000000; // Default: 1500
 
 
 export const DEFAULT_CHECK_DATA = {

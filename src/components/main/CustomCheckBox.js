@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
-import { useAppContext } from '../context/appData';
-import { ACTION_TYPES } from '../../config/actionTypes';
-import { APP_DATA_TYPES } from '../../config/appDataTypes';
-import { DEFAULT_CHECK } from '../../constants/constants';
-
+ 
 const CHECKBOX_STATES = {
   Positive: 'Positive',
   NonApplicable: 'NonApplicable',
@@ -14,11 +10,7 @@ const CHECKBOX_STATES = {
 };
 
 const CustomCheckbox = (props) => {
-  const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
-  const { mutate: postAction } = useMutation(MUTATION_KEYS.POST_APP_ACTION);
   const { mutate: patchAppData } = useMutation(MUTATION_KEYS.PATCH_APP_DATA);
-
-  const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
 
   const [positive, setPositive] = useState(false);
   const [nonApplicable, setNonApplicable] = useState(false);
@@ -37,6 +29,7 @@ const CustomCheckbox = (props) => {
       }
       return obj;
     });
+    console.log('new array',newArray)
     return newArray;
   };
 
@@ -48,24 +41,56 @@ const CustomCheckbox = (props) => {
         updatedChecked = CHECKBOX_STATES.Positive;
         setEmpty(false);
         setPositive(true);
+        props.setQuestionStudent(
+          updateObject(
+            props.questionStudent,
+            props.studentId,
+            props.questionId,
+            CHECKBOX_STATES.Positive,
+          ),
+        );
         break;
 
       case CHECKBOX_STATES.Positive:
         updatedChecked = CHECKBOX_STATES.Negative;
         setPositive(false);
         setNegative(true);
+        props.setQuestionStudent(
+          updateObject(
+            props.questionStudent,
+            props.studentId,
+            props.questionId,
+            CHECKBOX_STATES.Negative,
+          ),
+        );
         break;
 
       case CHECKBOX_STATES.Negative:
         updatedChecked = CHECKBOX_STATES.NonApplicable;
         setNegative(false);
         setNonApplicable(true);
+        props.setQuestionStudent(
+          updateObject(
+            props.questionStudent,
+            props.studentId,
+            props.questionId,
+            CHECKBOX_STATES.NonApplicable,
+          ),
+        );
         break;
 
       case CHECKBOX_STATES.NonApplicable:
         updatedChecked = CHECKBOX_STATES.Empty;
         setNonApplicable(false);
         setEmpty(true);
+        props.setQuestionStudent(
+          updateObject(
+            props.questionStudent,
+            props.studentId,
+            props.questionId,
+            CHECKBOX_STATES.Empty,
+          ),
+        );
         break;
 
       default:
@@ -74,20 +99,21 @@ const CustomCheckbox = (props) => {
 
     setIsChecked(updatedChecked);
 
-    props.setQuestionStudent(
-      updateObject(
-        props.questionStudent,
-        props.studentId,
-        props.questionId,
-        updatedChecked,
-      ),
-    );
+    // props.setQuestionStudent(
+    //   updateObject(
+    //     props.questionStudent,
+    //     props.studentId,
+    //     props.questionId,
+    //     updatedChecked,
+    //   ),
+    // );
     // props.setObjectStudents(
     //   updateObject(props.objectStudents, props.index, updatedChecked)
     // );
   };
 
   const conditionalRender = () => {
+
     if (props.state === CHECKBOX_STATES.Positive) {
       return (
         <Checkbox

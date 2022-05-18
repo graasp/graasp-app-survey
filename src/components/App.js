@@ -53,6 +53,8 @@ const App = () => {
             questionId: quest.question,
           },
         };
+        console.log(newObject)
+
         postAppData(newObject);
         arr.push(newObject);
       }
@@ -74,10 +76,7 @@ const App = () => {
   
   useEffect(() => {
     if (isAppContextSuccess) {
-      console.log('hey')
-      console.log(appContext?.get('members').map((std) => std.name)
-      .map((student) => ({ id: uuidv4(), student })),
-      )
+
       // Generate an array of students where each student is an object having an id and a name
       setObjectStudents(
         appContext
@@ -87,7 +86,6 @@ const App = () => {
       );
     }
   }, [appContext, isAppContextSuccess]);
-  console.log('out',objectStudents)
 
   const {
     data: appData,
@@ -98,27 +96,20 @@ const App = () => {
 
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
-
       const newChecks = appData.filter(
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
-      console.log(newChecks)
+
       if (newChecks._tail) {
-          
-        // if (
-        //   36 ===
-        //   objectStudents.length * objectQuestions.length
-        // ) {
           setQuestionStudent(newChecks._tail.array);
-        //}
+          console.log(questionStudent)
       }
       else {
-        console.log('heeey')
+        console.log('Hey there')
         // Generate array of checkboxes where each checkbox has an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
         );
-        console.log('hello',questionStudent)
       }
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
