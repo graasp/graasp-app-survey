@@ -100,7 +100,7 @@ const CustomCheckbox = (props) => {
         <Checkbox
           checked={positive ? true : ' '}
           style={{ color: 'green' }}
-          onClick={() => handleChange()}
+          onClick={handleChange}
         />
       );
     }

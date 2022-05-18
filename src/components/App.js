@@ -38,10 +38,8 @@ const questions = [
   'Shows an ability to distinguish between the important and the trivial?',
 ];
 
-
-
 const App = () => {
-
+  const [submitted, setSubmitted] = useState(false);
   const generateQuestionStudents = (stdArr, questArr) => {
     const arr = [];
     for (let quest of questArr) {
@@ -86,6 +84,7 @@ const App = () => {
     }
   }, [appContext, isAppContextSuccess]);
 
+  console.log(objectStudents)
   const {
     data: appData,
     isSuccess: isAppDataSuccess,
@@ -95,12 +94,17 @@ const App = () => {
 
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
+      console.log('Hey everyone')
+
       const newChecks = appData.filter(
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
       if (newChecks._tail) {
+        console.log('hi hi hi')
         setQuestionStudent(newChecks._tail.array);
       } else {
+        console.log('hohoho')
+
         // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
@@ -123,39 +127,45 @@ const App = () => {
 
   return (
     <div style={{ padding: '50px 20px 20px 20px' }}>
-      <Header />
-      <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '20px' }}>
-        <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-          <Table aria-label="simple table" stickyHeader>
-            <TableHead>
-              <TableRow>
-                <ColumnNames objectStudents={objectStudents} />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRows
-                objectQuestions={objectQuestions}
-                objectStudents={objectStudents}
-                setObjectStudents={setObjectStudents}
-                questionStudent={questionStudent}
-                setQuestionStudent={setQuestionStudent}
-                page={page}
-                rowsPerPage={rowsPerPage}
-              />
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={questions.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <CommentSection questionStudent={questionStudent} />
+      {!submitted ? (
+        <>
+          <Header />
+          <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '20px' }}>
+            <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+              <Table aria-label="simple table" stickyHeader>
+                <TableHead>
+                  <TableRow>
+                    <ColumnNames objectStudents={objectStudents} />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRows
+                    objectQuestions={objectQuestions}
+                    objectStudents={objectStudents}
+                    setObjectStudents={setObjectStudents}
+                    questionStudent={questionStudent}
+                    setQuestionStudent={setQuestionStudent}
+                    page={page}
+                    rowsPerPage={rowsPerPage}
+                  />
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={questions.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+          <CommentSection questionStudent={questionStudent} setSubmitted={setSubmitted}/>
+        </>
+      ) : (
+        <div>thank you</div>
+      )}
     </div>
   );
 };

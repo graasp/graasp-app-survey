@@ -48,6 +48,7 @@ const CommentSection = (props) => {
 
   const handleClick = () => {
     postAppData(commentObject);
+    props.setSubmitted(true)
   };
   const disableButton = () => {
     if (
@@ -83,7 +84,7 @@ const CommentSection = (props) => {
         disabled={disableButton()}
         variant="contained"
         color="secondary"
-        type="submit"
+        // type="submit"
         onClick={handleClick}
       >
         Submit
