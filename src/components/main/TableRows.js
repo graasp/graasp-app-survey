@@ -3,7 +3,6 @@ import TableCell from '@material-ui/core/TableCell';
 import CustomCheckbox from './CustomCheckBox';
 
 const TableRows = (props) => {
-  console.log('hiiiii',props.questionStudent)
   return (
     <>
       {props.objectQuestions
@@ -20,7 +19,7 @@ const TableRows = (props) => {
               .filter(({ data }) => data.questionId === question.question)
               .map((student, index) => (
                 <TableCell align="right" key={index}>
-                <div style={{color:'black'}}>{student.data.studentId}{question.question}</div>
+                {/* <div style={{color:'black'}}>{student.data.studentId}{question.question}</div> */}
                   <CustomCheckbox
                     state={student.data.state}
                     studentId={student.data.studentId}

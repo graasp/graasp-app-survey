@@ -71,9 +71,13 @@ const App = () => {
   );
   const [objectStudents, setObjectStudents] = useState([]);
   const [questionStudent, setQuestionStudent] = useState([]);
-
+  
   useEffect(() => {
     if (isAppContextSuccess) {
+      console.log('hey')
+      console.log(appContext?.get('members').map((std) => std.name)
+      .map((student) => ({ id: uuidv4(), student })),
+      )
       // Generate an array of students where each student is an object having an id and a name
       setObjectStudents(
         appContext
@@ -83,8 +87,8 @@ const App = () => {
       );
     }
   }, [appContext, isAppContextSuccess]);
+  console.log('out',objectStudents)
 
-  console.log(objectStudents)
   const {
     data: appData,
     isSuccess: isAppDataSuccess,
@@ -94,24 +98,31 @@ const App = () => {
 
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
-      console.log('Hey everyone')
 
       const newChecks = appData.filter(
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
+      console.log(newChecks)
       if (newChecks._tail) {
-        console.log('hi hi hi')
-        setQuestionStudent(newChecks._tail.array);
-      } else {
-        console.log('hohoho')
-
-        // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
+          
+        // if (
+        //   36 ===
+        //   objectStudents.length * objectQuestions.length
+        // ) {
+          setQuestionStudent(newChecks._tail.array);
+        //}
+      }
+      else {
+        console.log('heeey')
+        // Generate array of checkboxes where each checkbox has an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
         );
+        console.log('hello',questionStudent)
       }
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
+
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -161,7 +172,10 @@ const App = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Paper>
-          <CommentSection questionStudent={questionStudent} setSubmitted={setSubmitted}/>
+          <CommentSection
+            questionStudent={questionStudent}
+            setSubmitted={setSubmitted}
+          />
         </>
       ) : (
         <div>thank you</div>

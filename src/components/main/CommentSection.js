@@ -36,27 +36,25 @@ const CommentSection = (props) => {
           },
         });
       }
-     
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
 
   const handleComment = (e) => {
     setComment(e.target.value);
-    setCommentObject({ ...commentObject, data:{...commentObject.data,text: e.target.value }});
-    console.log(commentObject)
+    setCommentObject({
+      ...commentObject,
+      data: { ...commentObject.data, text: e.target.value },
+    });
   };
 
   const handleClick = () => {
     postAppData(commentObject);
-    props.setSubmitted(true)
+    props.setSubmitted(true);
   };
   const disableButton = () => {
     if (
       props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0
     ) {
-      console.log(
-        props.questionStudent.filter((e) => e.data.state === 'Empty'),
-      );
       return true;
     }
     return false;

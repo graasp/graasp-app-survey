@@ -27,13 +27,6 @@ const CustomCheckbox = (props) => {
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
 
 
-  // props.stdObjects.forEach((obj)=>console.log(obj.content._store.valueOf()))
-
-  // useEffect(() => {
-  //   if (props.questionStudent.length !== 0) {
-  //     console.log(props.questionStudent);
-  //   }
-  // });
   const updateObject = (arr, index, question, status) => {
     const newArray = arr.map((obj) => {
       if (obj.data.studentId === index && obj.data.questionId === question) {
