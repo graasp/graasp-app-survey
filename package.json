@@ -9,7 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "6.1.0",
     "@fortawesome/react-fontawesome": "^0.1.17",
     "@graasp/apps-query-client": "github:graasp/graasp-apps-query-client.git",
-    "@graasp/ui": "github:graasp/graasp-ui.git",
+    "@graasp/ui": "0.2.0",
     "@jridgewell/trace-mapping": "0.3.4",
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",

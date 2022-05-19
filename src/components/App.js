@@ -16,6 +16,7 @@ import TableRows from './main/TableRows';
 import ColumnNames from './main/ColumnNames';
 import CommentSection from './main/CommentSection';
 import { DEFAULT_CHECK, DEFAULT_CHECK_DATA } from '../constants/constants';
+import DownloadReport from './main/DownloadReport';
 
 const questions = [
   'Attend nearly all team meetings?',
@@ -53,7 +54,7 @@ const App = () => {
             questionId: quest.question,
           },
         };
-        console.log(newObject)
+        console.log(newObject);
 
         postAppData(newObject);
         arr.push(newObject);
@@ -77,7 +78,6 @@ const App = () => {
 
   useEffect(() => {
     if (isAppContextSuccess) {
-
       // Generate an array of students where each student is an object having an id and a name
       setObjectStudents(
         appContext
@@ -95,7 +95,7 @@ const App = () => {
     isLoading: isAppDataLoading,
   } = useAppData();
 
-  console.log('graaac')
+  console.log('graaac');
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
       const newChecks = appData.filter(
@@ -103,19 +103,25 @@ const App = () => {
       );
 
       if (newChecks._tail) {
-          setQuestionStudent(newChecks._tail.array);
-          console.log('hhhh',questionStudent)
-      }
-      else {
-        console.log('Hey there')
+        setQuestionStudent(newChecks._tail.array);
+        console.log('hhhh', questionStudent);
+      } else {
+        console.log('Hey there');
         // Generate array of checkboxes where each checkbox has an object having a studentId, questionId and state (and type and visibility)
         setQuestionStudent(
           generateQuestionStudents(objectStudents, objectQuestions),
         );
       }
     }
-  }, [appData, isAppDataSuccess, isAppDataLoading, questionStudent, generateQuestionStudents, objectStudents, objectQuestions]);
-
+  }, [
+    appData,
+    isAppDataSuccess,
+    isAppDataLoading,
+    questionStudent,
+    generateQuestionStudents,
+    objectStudents,
+    objectQuestions,
+  ]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -131,7 +137,14 @@ const App = () => {
 
   return (
     <div style={{ padding: '50px 20px 20px 20px' }}>
-      {!submitted ? (
+      {submitted ? (
+        <div className="middle">
+          <h1>Thank you!</h1>
+          <div>
+            <DownloadReport />
+          </div>
+        </div>
+      ) : (
         <>
           <Header />
           <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '20px' }}>
@@ -172,8 +185,6 @@ const App = () => {
             disabled={disabled}
           />
         </>
-      ) : (
-        <div>thank you</div>
       )}
     </div>
   );
