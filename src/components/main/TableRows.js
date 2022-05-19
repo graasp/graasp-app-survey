@@ -40,6 +40,7 @@ const TableRows = (props) => {
                     setObjectStudents={props.setObjectStudents}
                     questionStudent={props.questionStudent}
                     setQuestionStudent={props.setQuestionStudent}
+                    setDisabled={props.setDisabled}
                   />
                 </TableCell>
               ))}

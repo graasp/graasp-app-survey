@@ -103,7 +103,7 @@ const App = () => {
 
       if (newChecks._tail) {
           setQuestionStudent(newChecks._tail.array);
-          console.log(questionStudent)
+          console.log('hhhh',questionStudent)
       }
       else {
         console.log('Hey there')
