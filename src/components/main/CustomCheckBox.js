@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
- 
+
 const CHECKBOX_STATES = {
   Positive: 'Positive',
   NonApplicable: 'NonApplicable',
@@ -18,7 +18,6 @@ const CustomCheckbox = (props) => {
   const [empty, setEmpty] = useState(true);
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
 
-
   const updateObject = (arr, index, question, status) => {
     const newArray = arr.map((obj) => {
       if (obj.data.studentId === index && obj.data.questionId === question) {
@@ -29,16 +28,8 @@ const CustomCheckbox = (props) => {
       }
       return obj;
     });
-    console.log('new array',newArray)
+    console.log('new array', newArray);
     return newArray;
-  };
-  const disableButton = () => {
-    if (
-      props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0
-    ) {
-      return true;
-    }
-    return false;
   };
 
   const handleChange = (e) => {
@@ -106,7 +97,17 @@ const CustomCheckbox = (props) => {
     }
 
     setIsChecked(updatedChecked);
-    props.setDisabled(disableButton)
+
+    if (
+      props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0
+    ) {
+      console.log('hello 1')
+      props.setDisabled(true);
+    } else {
+      console.log('hello 2')
+
+      props.setDisabled(false);
+    }
 
     // props.setQuestionStudent(
     //   updateObject(
@@ -122,7 +123,6 @@ const CustomCheckbox = (props) => {
   };
 
   const conditionalRender = () => {
-
     if (props.state === CHECKBOX_STATES.Positive) {
       return (
         <Checkbox

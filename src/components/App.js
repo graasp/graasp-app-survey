@@ -95,6 +95,7 @@ const App = () => {
     isLoading: isAppDataLoading,
   } = useAppData();
 
+  console.log('graaac')
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
       const newChecks = appData.filter(
@@ -113,7 +114,7 @@ const App = () => {
         );
       }
     }
-  }, [appData, isAppDataSuccess, isAppDataLoading]);
+  }, [appData, isAppDataSuccess, isAppDataLoading, questionStudent, generateQuestionStudents, objectStudents, objectQuestions]);
 
 
   const [page, setPage] = useState(0);
