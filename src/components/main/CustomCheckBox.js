@@ -32,6 +32,14 @@ const CustomCheckbox = (props) => {
     console.log('new array',newArray)
     return newArray;
   };
+  const disableButton = () => {
+    if (
+      props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   const handleChange = (e) => {
     let updatedChecked;
@@ -98,6 +106,7 @@ const CustomCheckbox = (props) => {
     }
 
     setIsChecked(updatedChecked);
+    props.setDisabled(disableButton)
 
     // props.setQuestionStudent(
     //   updateObject(

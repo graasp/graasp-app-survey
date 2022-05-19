@@ -51,14 +51,7 @@ const CommentSection = (props) => {
     postAppData(commentObject);
     props.setSubmitted(true);
   };
-  const disableButton = () => {
-    if (
-      props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0
-    ) {
-      return true;
-    }
-    return false;
-  };
+
 
   return (
     <Box
@@ -79,7 +72,7 @@ const CommentSection = (props) => {
         onChange={handleComment}
       />
       <Button
-        disabled={disableButton()}
+        disabled={props.disabled}
         variant="contained"
         color="secondary"
         // type="submit"

@@ -73,7 +73,8 @@ const App = () => {
   );
   const [objectStudents, setObjectStudents] = useState([]);
   const [questionStudent, setQuestionStudent] = useState([]);
-  
+  const [disabled, setDisabled] = useState(true);
+
   useEffect(() => {
     if (isAppContextSuccess) {
 
@@ -149,6 +150,7 @@ const App = () => {
                     setQuestionStudent={setQuestionStudent}
                     page={page}
                     rowsPerPage={rowsPerPage}
+                    setDisabled={setDisabled}
                   />
                 </TableBody>
               </Table>
@@ -166,6 +168,7 @@ const App = () => {
           <CommentSection
             questionStudent={questionStudent}
             setSubmitted={setSubmitted}
+            disabled={disabled}
           />
         </>
       ) : (
