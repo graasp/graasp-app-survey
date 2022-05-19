@@ -9,7 +9,7 @@ export const DEFAULT_CHECK_DATA = {
 };
 export const DEFAULT_CHECK = {
   type: APP_DATA_TYPES.CHECK,
-  visibility: 'item',
+  visibility: 'member',
   data: DEFAULT_CHECK_DATA,
 };
 export const DEFAULT_CHECKLIST = {
