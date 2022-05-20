@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -8,14 +8,13 @@ import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
 import { v4 as uuidv4 } from 'uuid';
 import Header from './main/Header';
-import { useAppContext } from './context/appData';
+import { useAppContext, useAppData } from './context/appData';
 import { APP_DATA_TYPES } from '../config/appDataTypes';
 import { MUTATION_KEYS, useMutation } from '../config/queryClient';
-import { useAppData } from './context/appData';
 import TableRows from './main/TableRows';
 import ColumnNames from './main/ColumnNames';
 import CommentSection from './main/CommentSection';
-import { DEFAULT_CHECK, DEFAULT_CHECK_DATA } from '../constants/constants';
+import generateQuestionStudents from '../utils/generateQuestionsStudents';
 import DownloadReport from './main/DownloadReport';
 
 const questions = [
@@ -41,31 +40,10 @@ const questions = [
 
 const App = () => {
   const [submitted, setSubmitted] = useState(false);
-  const generateQuestionStudents = (stdArr, questArr) => {
-    const arr = [];
-    for (let quest of questArr) {
-      for (let std of stdArr) {
-        const newObject = {
-          ...DEFAULT_CHECK,
-          id: uuidv4(),
-          data: {
-            ...DEFAULT_CHECK_DATA,
-            studentId: std.student,
-            questionId: quest.question,
-          },
-        };
-        console.log(newObject);
-
-        postAppData(newObject);
-        arr.push(newObject);
-      }
-    }
-    return arr;
-  };
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
   const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
 
-  const [objectQuestions, setObjectQuestions] = useState(
+  const [objectQuestions,] = useState(
     questions.map((question, index) => ({
       id: uuidv4(),
       question,
@@ -102,15 +80,17 @@ const App = () => {
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
 
-      if (newChecks._tail) {
-        setQuestionStudent(newChecks._tail.array);
+      if (newChecks?.length > 0) {
+        setQuestionStudent(newChecks);
         console.log('hhhh', questionStudent);
       } else {
         console.log('Hey there');
         // Generate array of checkboxes where each checkbox has an object having a studentId, questionId and state (and type and visibility)
-        setQuestionStudent(
-          generateQuestionStudents(objectStudents, objectQuestions),
-        );
+        const arrayQuestions = generateQuestionStudents(objectStudents, objectQuestions);
+        arrayQuestions.forEach((object) => {
+          postAppData(object);
+        });
+        setQuestionStudent(arrayQuestions);
       }
     }
   }, [
@@ -118,7 +98,6 @@ const App = () => {
     isAppDataSuccess,
     isAppDataLoading,
     questionStudent,
-    generateQuestionStudents,
     objectStudents,
     objectQuestions,
   ]);
