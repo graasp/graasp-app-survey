@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import { saveAs } from 'file-saver';
 import { useAppActions } from '../context/appData';

@@ -73,7 +73,6 @@ const App = () => {
     isLoading: isAppDataLoading,
   } = useAppData();
 
-  console.log('graaac');
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
       const newChecks = appData.filter(
@@ -82,9 +81,7 @@ const App = () => {
 
       if (newChecks?.length > 0) {
         setQuestionStudent(newChecks);
-        console.log('hhhh', questionStudent);
       } else {
-        console.log('Hey there');
         // Generate array of checkboxes where each checkbox has an object having a studentId, questionId and state (and type and visibility)
         const arrayQuestions = generateQuestionStudents(objectStudents, objectQuestions);
         arrayQuestions.forEach((object) => {

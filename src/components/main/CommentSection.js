@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 import { APP_DATA_TYPES } from '../../config/appDataTypes';
 import { useAppData } from '../context/appData';
-import { uuid4 } from '@sentry/utils';
 
-const CommentSection = (props) => {
+const CommentSection = ({setSubmitted, disabled}) => {
   const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
   const {
     data: appData,
@@ -24,12 +24,11 @@ const CommentSection = (props) => {
         ({ type }) => type === APP_DATA_TYPES.COMMENT,
       );
 
-      if (newComment._tail) {
-        setCommentObject(newComment._tail.array[0]);
+      if (newComment?.lengnth > 0) {
+        setCommentObject(newComment[0]);
       } else {
         // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
         setCommentObject({
-          id: uuid4(),
           type: 'comment',
           data: {
             text: comment,
@@ -49,7 +48,7 @@ const CommentSection = (props) => {
 
   const handleClick = () => {
     postAppData(commentObject);
-    props.setSubmitted(true);
+    setSubmitted(true);
   };
 
 
@@ -72,7 +71,7 @@ const CommentSection = (props) => {
         onChange={handleComment}
       />
       <Button
-        disabled={props.disabled}
+        disabled={disabled}
         variant="contained"
         color="secondary"
         // type="submit"
@@ -82,6 +81,11 @@ const CommentSection = (props) => {
       </Button>
     </Box>
   );
+};
+
+CommentSection.propTypes = {
+  setSubmitted: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default CommentSection;

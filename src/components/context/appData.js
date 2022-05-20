@@ -24,7 +24,6 @@ export const useAppActions = () => {
 
 export const useAppContext = () => {
   const context = useContext(Context);
-  console.log(context?.permission);
   const token = useContext(TokenContext);
   const query = hooks.useAppContext({ token, itemId: context?.itemId });
   return query;

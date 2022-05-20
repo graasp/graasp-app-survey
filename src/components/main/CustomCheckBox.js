@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
+import PropTypes from 'prop-types';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 
 const CHECKBOX_STATES = {
@@ -9,7 +10,10 @@ const CHECKBOX_STATES = {
   Empty: 'Empty',
 };
 
-const CustomCheckbox = (props) => {
+const CustomCheckbox = ({setQuestionStudent, questionStudent,
+  studentId,
+  questionId,
+  setDisabled, state}) => {
   const { mutate: patchAppData } = useMutation(MUTATION_KEYS.PATCH_APP_DATA);
 
   const [positive, setPositive] = useState(false);
@@ -28,11 +32,10 @@ const CustomCheckbox = (props) => {
       }
       return obj;
     });
-    console.log('new array', newArray);
     return newArray;
   };
 
-  const handleChange = (e) => {
+  const handleChange = () => {
     let updatedChecked;
 
     switch (isChecked) {
@@ -40,11 +43,11 @@ const CustomCheckbox = (props) => {
         updatedChecked = CHECKBOX_STATES.Positive;
         setEmpty(false);
         setPositive(true);
-        props.setQuestionStudent(
+        setQuestionStudent(
           updateObject(
-            props.questionStudent,
-            props.studentId,
-            props.questionId,
+            questionStudent,
+            studentId,
+            questionId,
             CHECKBOX_STATES.Positive,
           ),
         );
@@ -54,11 +57,11 @@ const CustomCheckbox = (props) => {
         updatedChecked = CHECKBOX_STATES.Negative;
         setPositive(false);
         setNegative(true);
-        props.setQuestionStudent(
+        setQuestionStudent(
           updateObject(
-            props.questionStudent,
-            props.studentId,
-            props.questionId,
+            questionStudent,
+            studentId,
+            questionId,
             CHECKBOX_STATES.Negative,
           ),
         );
@@ -68,11 +71,11 @@ const CustomCheckbox = (props) => {
         updatedChecked = CHECKBOX_STATES.NonApplicable;
         setNegative(false);
         setNonApplicable(true);
-        props.setQuestionStudent(
+        setQuestionStudent(
           updateObject(
-            props.questionStudent,
-            props.studentId,
-            props.questionId,
+            questionStudent,
+            studentId,
+            questionId,
             CHECKBOX_STATES.NonApplicable,
           ),
         );
@@ -82,11 +85,11 @@ const CustomCheckbox = (props) => {
         updatedChecked = CHECKBOX_STATES.Empty;
         setNonApplicable(false);
         setEmpty(true);
-        props.setQuestionStudent(
+        setQuestionStudent(
           updateObject(
-            props.questionStudent,
-            props.studentId,
-            props.questionId,
+            questionStudent,
+            studentId,
+            questionId,
             CHECKBOX_STATES.Empty,
           ),
         );
@@ -99,14 +102,11 @@ const CustomCheckbox = (props) => {
     setIsChecked(updatedChecked);
 
     if (
-      props.questionStudent.filter((e) => e.data.state === 'Empty').length > 0
+      questionStudent.filter((e) => e.data.state === 'Empty').length > 0
     ) {
-      console.log('hello 1')
-      props.setDisabled(true);
+      setDisabled(true);
     } else {
-      console.log('hello 2')
-
-      props.setDisabled(false);
+      setDisabled(false);
     }
 
     // props.setQuestionStudent(
@@ -123,7 +123,7 @@ const CustomCheckbox = (props) => {
   };
 
   const conditionalRender = () => {
-    if (props.state === CHECKBOX_STATES.Positive) {
+    if (state === CHECKBOX_STATES.Positive) {
       return (
         <Checkbox
           checked={positive ? true : ' '}
@@ -132,7 +132,7 @@ const CustomCheckbox = (props) => {
         />
       );
     }
-    if (props.state === CHECKBOX_STATES.Negative) {
+    if (state === CHECKBOX_STATES.Negative) {
       return (
         <Checkbox
           checked={negative ? true : ' '}
@@ -141,10 +141,10 @@ const CustomCheckbox = (props) => {
         />
       );
     }
-    if (props.state === CHECKBOX_STATES.Empty) {
+    if (state === CHECKBOX_STATES.Empty) {
       return <Checkbox checked={empty ? false : ' '} onClick={handleChange} />;
     }
-    if (props.state === CHECKBOX_STATES.NonApplicable) {
+    if (state === CHECKBOX_STATES.NonApplicable) {
       return (
         <Checkbox
           checked={nonApplicable ? true : ' '}
@@ -153,8 +153,18 @@ const CustomCheckbox = (props) => {
         />
       );
     }
+    return null;
   };
   return <>{conditionalRender()}</>;
+};
+
+CustomCheckbox.propTypes = {
+  setQuestionStudent: PropTypes.func.isRequired,
+  questionStudent: PropTypes.string.isRequired,
+  studentId: PropTypes.string.isRequired,
+  questionId: PropTypes.string.isRequired,
+  setDisabled: PropTypes.func.isRequired,
+  state: PropTypes.string.isRequired,
 };
 
 export default CustomCheckbox;
