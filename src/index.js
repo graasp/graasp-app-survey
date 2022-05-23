@@ -1,5 +1,6 @@
 import React from 'react';
-import * as ReactDOMClient from 'react-dom/client';
+// import * as ReactDOMClient from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { buildMockLocalContext, mockServer } from '@graasp/apps-query-client';
@@ -39,12 +40,13 @@ if (MOCK_API) {
   mockServer({ database, appContext, errors });
 }
 
-const rootElement =  document.getElementById('root');
-const root = ReactDOMClient.createRoot(rootElement);
+const rootElement = document.getElementById('root');
+// const root = ReactDOMClient.createRoot(rootElement);
 
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <Root />
-  </React.StrictMode>
+  </React.StrictMode>,
+  rootElement,
 );
 serviceWorker.unregister();

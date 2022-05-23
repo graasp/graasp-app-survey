@@ -25,7 +25,7 @@ const TokenProvider = ({ children }) => {
 
   const value = data;
 
-  console.log("TOKEN DATA: ", data);
+  console.log('TOKEN DATA: ', data);
   return (
     <TokenContext.Provider value={value}>{children}</TokenContext.Provider>
   );

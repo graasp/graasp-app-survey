@@ -7,7 +7,7 @@ import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 import { APP_DATA_TYPES } from '../../config/appDataTypes';
 import { useAppData } from '../context/appData';
 
-const CommentSection = ({setSubmitted, disabled}) => {
+const CommentSection = ({ setSubmitted, disabled }) => {
   const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
   const {
     data: appData,
@@ -50,7 +50,6 @@ const CommentSection = ({setSubmitted, disabled}) => {
     postAppData(commentObject);
     setSubmitted(true);
   };
-
 
   return (
     <Box

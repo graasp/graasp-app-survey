@@ -6,46 +6,24 @@ import TableBody from '@material-ui/core/TableBody';
 import TablePagination from '@mui/material/TablePagination';
 import Table from '@material-ui/core/Table';
 import Paper from '@material-ui/core/Paper';
-import { v4 as uuidv4 } from 'uuid';
 import Header from './main/Header';
 import { useAppContext, useAppData } from './context/appData';
 import { APP_DATA_TYPES } from '../config/appDataTypes';
-import { MUTATION_KEYS, useMutation } from '../config/queryClient';
 import TableRows from './main/TableRows';
 import ColumnNames from './main/ColumnNames';
 import CommentSection from './main/CommentSection';
-import generateQuestionStudents from '../utils/generateQuestionsStudents';
+// import generateQuestionStudents from '../utils/generateQuestionsStudents';
 import DownloadReport from './main/DownloadReport';
-
-const questions = [
-  'Attend nearly all team meetings?',
-  'Arrive on time for nearly all team meetings?',
-  'Ever introduce a new idea?',
-  'Ever openly express opinions?',
-  'Communicate clearly with other team members?',
-  'Share knowledge with others?',
-  'Ever consider a suggestion from someone else?',
-  'Ever adopt a suggestion from someone else?',
-  'Generally tried to understand what other team members were saying?',
-  'Ever help someone on the team?',
-  'Ask for help from someone on the team?',
-  'Generally complete individual assignments on time?',
-  'Generally complete individual assignments with acceptable quality?',
-  'Do a fair share of the work?',
-  'Seem committed to team goals?',
-  'Generally shows respect for other team members?',
-  'Demonstrate an ability to do research and gather information?',
-  'Shows an ability to distinguish between the important and the trivial?',
-];
+import { CHECKBOX_STATES } from '../constants/constants';
+import questions from '../config/questions';
 
 const App = () => {
   const [submitted, setSubmitted] = useState(false);
   const { data: appContext, isSuccess: isAppContextSuccess } = useAppContext();
-  const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
 
-  const [objectQuestions,] = useState(
+  const [objectQuestions] = useState(
     questions.map((question, index) => ({
-      id: uuidv4(),
+      id: question,
       question,
       position: index,
     })),
@@ -56,12 +34,12 @@ const App = () => {
 
   useEffect(() => {
     if (isAppContextSuccess) {
+      console.log('Members: ', appContext?.get('members'));
       // Generate an array of students where each student is an object having an id and a name
       setObjectStudents(
         appContext
           ?.get('members')
-          .map((std) => std.name)
-          .map((student) => ({ id: uuidv4(), student })),
+          .map((student) => ({ id: student.id, student: student.name })),
       );
     }
   }, [appContext, isAppContextSuccess]);
@@ -78,26 +56,20 @@ const App = () => {
       const newChecks = appData.filter(
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
-
-      if (newChecks?.length > 0) {
-        setQuestionStudent(newChecks);
+      console.log(newChecks);
+      setQuestionStudent(newChecks);
+      if (
+        questionStudent
+          .filter((e) => e.data.state === CHECKBOX_STATES.Empty)
+          .isEmpty() &&
+        !questionStudent.isEmpty()
+      ) {
+        setDisabled(true);
       } else {
-        // Generate array of checkboxes where each checkbox has an object having a studentId, questionId and state (and type and visibility)
-        const arrayQuestions = generateQuestionStudents(objectStudents, objectQuestions);
-        arrayQuestions.forEach((object) => {
-          postAppData(object);
-        });
-        setQuestionStudent(arrayQuestions);
+        setDisabled(false);
       }
     }
-  }, [
-    appData,
-    isAppDataSuccess,
-    isAppDataLoading,
-    questionStudent,
-    objectStudents,
-    objectQuestions,
-  ]);
+  }, [appData, isAppDataSuccess, isAppDataLoading]);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -137,7 +109,6 @@ const App = () => {
                     objectStudents={objectStudents}
                     setObjectStudents={setObjectStudents}
                     questionStudent={questionStudent}
-                    setQuestionStudent={setQuestionStudent}
                     page={page}
                     rowsPerPage={rowsPerPage}
                     setDisabled={setDisabled}

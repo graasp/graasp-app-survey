@@ -23,7 +23,7 @@ import {
   ReactQueryDevtools,
 } from '../config/queryClient';
 
-import { AppProvider } from './context/AppContext';
+// import { AppProvider } from './context/AppContext';
 
 const useStyles = makeStyles({
   root: {
@@ -71,9 +71,10 @@ const Root = () => {
           <QueryClientProvider client={queryClient}>
             <ContextProvider>
               <TokenProvider>
-                <AppProvider>
+                {/* <AppProvider>
                   <App />
-                </AppProvider>
+                </AppProvider> */}
+                <App />
               </TokenProvider>
             </ContextProvider>
             {process.env.NODE_ENV === 'development' && (

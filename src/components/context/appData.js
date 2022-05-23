@@ -8,7 +8,7 @@ export const useAppData = () => {
   const context = useContext(Context);
   const token = useContext(TokenContext);
   const query = hooks.useAppData(
-    { token, itemId: context?.itemId },
+    { token, itemId: context?.get('itemId') },
     RE_FETCH_INTERVAL,
   );
 
@@ -18,21 +18,21 @@ export const useAppData = () => {
 export const useAppActions = () => {
   const context = useContext(Context);
   const token = useContext(TokenContext);
-  const query = hooks.useAppActions({ token, itemId: context?.itemId });
+  const query = hooks.useAppActions({ token, itemId: context?.get('itemId') });
   return query;
 };
 
 export const useAppContext = () => {
   const context = useContext(Context);
   const token = useContext(TokenContext);
-  const query = hooks.useAppContext({ token, itemId: context?.itemId });
+  const query = hooks.useAppContext({ token, itemId: context?.get('itemId') });
   return query;
 };
 
 export const useAppSettings = () => {
   const context = useContext(Context);
   const token = useContext(TokenContext);
-  const query = hooks.useAppSettings({ token, itemId: context?.itemId });
+  const query = hooks.useAppSettings({ token, itemId: context?.get('itemId') });
   return query;
 };
 

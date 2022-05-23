@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 // eslint-disable-next-line react/prop-types
-const DownloadReport = ({members}) => {
+const DownloadReport = ({ members }) => {
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -28,8 +28,6 @@ const DownloadReport = ({members}) => {
   const [enableDownload, setEnableDownload] = useState(false);
 
   const context = useContext(Context);
-
-
 
   const {
     data: appActions,
@@ -76,15 +74,14 @@ const DownloadReport = ({members}) => {
       {/* <Typography className={classes.headerText}>
         {t('Download learning analytics.')}
       </Typography> */}
-          <Button
-            disabled={!enableDownload}
-            variant="contained"
-            color="secondary"
-            onClick={handleDownload}
-          >
-            {t('Download')}
-          </Button>
-       
+      <Button
+        disabled={!enableDownload}
+        variant="contained"
+        color="secondary"
+        onClick={handleDownload}
+      >
+        {t('Download')}
+      </Button>
     </div>
   );
 };
