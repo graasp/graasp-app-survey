@@ -16,6 +16,7 @@ import CommentSection from './main/CommentSection';
 import DownloadReport from './main/DownloadReport';
 import { CHECKBOX_STATES } from '../constants/constants';
 import questions from '../config/questions';
+import { FILTERED_IDS } from '../config/settings';
 
 const App = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -34,20 +35,16 @@ const App = () => {
 
   useEffect(() => {
     if (isAppContextSuccess) {
-      console.log('Members: ', appContext?.get('members'));
-      // Generate an array of students where each student is an object having an id and a name
-      setObjectStudents(
-        appContext
-          ?.get('members')
-          .map((student) => ({ id: student.id, student: student.name })),
-      );
+      const members = appContext
+        ?.get('members').filter((m) => !FILTERED_IDS.includes(m.id))
+        .map((student) => ({ id: student.id, student: student.name }));
+      setObjectStudents(members);
     }
   }, [appContext, isAppContextSuccess]);
 
   const {
     data: appData,
     isSuccess: isAppDataSuccess,
-    // isStale: isAppDataStale,
     isLoading: isAppDataLoading,
   } = useAppData();
 
@@ -59,10 +56,10 @@ const App = () => {
       console.log(newChecks);
       setQuestionStudent(newChecks);
       if (
-        questionStudent
+        newChecks
           .filter((e) => e.data.state === CHECKBOX_STATES.Empty)
           .isEmpty() &&
-        !questionStudent.isEmpty()
+        !newChecks.isEmpty()
       ) {
         setDisabled(true);
       } else {
