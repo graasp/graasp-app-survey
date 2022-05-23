@@ -6,7 +6,6 @@ import CustomCheckbox from './CustomCheckBox';
 
 const TableRows = ({
   questionStudent,
-  setDisabled,
   objectQuestions,
   page,
   rowsPerPage,
@@ -31,7 +30,6 @@ const TableRows = ({
                   studentId={student.id}
                   questionId={question.id}
                   questionStudent={questionStudent}
-                  setDisabled={setDisabled}
                 />
               </TableCell>
             ))}
@@ -42,7 +40,6 @@ const TableRows = ({
 
 TableRows.propTypes = {
   questionStudent: PropTypes.string.isRequired,
-  setDisabled: PropTypes.func.isRequired,
   objectQuestions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 import { APP_DATA_TYPES } from '../../config/appDataTypes';
 import { useAppData } from '../context/appData';
+import { DEFAULT_SUBMIT_CONFIRM } from '../../constants/constants';
 
 const CommentSection = ({ setSubmitted, disabled }) => {
   const { mutate: postAppData } = useMutation(MUTATION_KEYS.POST_APP_DATA);
@@ -24,12 +25,11 @@ const CommentSection = ({ setSubmitted, disabled }) => {
         ({ type }) => type === APP_DATA_TYPES.COMMENT,
       );
 
-      if (newComment?.lengnth > 0) {
-        setCommentObject(newComment[0]);
+      if (!newComment.isEmpty()) {
+        setCommentObject(newComment.last());
       } else {
-        // Generate array of checkboxes where each checkbox his an object having a studentId, questionId and state (and type and visibility)
         setCommentObject({
-          type: 'comment',
+          type: APP_DATA_TYPES.COMMENT,
           data: {
             text: comment,
           },
@@ -48,6 +48,12 @@ const CommentSection = ({ setSubmitted, disabled }) => {
 
   const handleClick = () => {
     postAppData(commentObject);
+    postAppData({
+      ...DEFAULT_SUBMIT_CONFIRM,
+      data: {
+        submitted: true,
+      },
+    });
     setSubmitted(true);
   };
 
