@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import { MUTATION_KEYS, useMutation } from '../../config/queryClient';
 import {
   DEFAULT_CHECK,
@@ -15,13 +16,17 @@ const CustomCheckbox = ({ questionStudent, studentId, questionId }) => {
 
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
 
-  const getState = () =>
-    questionStudent
-      ?.filter(
-        ({ data }) =>
-          data.questionId === questionId && data.studentId === studentId,
-      )
-      ?.first()?.data.state ?? CHECKBOX_STATES.Empty;
+  const getState = () => {
+    if(!questionStudent?.isEmpty()) {
+      return  (questionStudent
+        ?.filter(
+          ({ data }) =>
+            data.questionId === questionId && data.studentId === studentId,
+        )
+        ?.first()?.data.state) ?? CHECKBOX_STATES.Empty;
+    }
+    return CHECKBOX_STATES.Empty;
+  }
 
   const [state, setState] = useState(getState());
 
@@ -122,7 +127,7 @@ const CustomCheckbox = ({ questionStudent, studentId, questionId }) => {
 };
 
 CustomCheckbox.propTypes = {
-  questionStudent: PropTypes.string.isRequired,
+  questionStudent: PropTypes.instanceOf(Immutable.List).isRequired,
   studentId: PropTypes.string.isRequired,
   questionId: PropTypes.string.isRequired,
 };

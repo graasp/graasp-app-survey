@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Immutable from 'immutable';
 import CustomCheckbox from './CustomCheckBox';
 
 const TableRows = ({
@@ -39,7 +40,7 @@ const TableRows = ({
 );
 
 TableRows.propTypes = {
-  questionStudent: PropTypes.string.isRequired,
+  questionStudent: PropTypes.instanceOf(Immutable.List).isRequired,
   objectQuestions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,

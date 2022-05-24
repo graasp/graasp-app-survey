@@ -30,7 +30,7 @@ const QuestionsView = () => {
     })),
   );
   const [objectStudents, setObjectStudents] = useState([]);
-  const [questionStudent, setQuestionStudent] = useState([]);
+  const [questionStudent, setQuestionStudent] = useState(null);
   const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
