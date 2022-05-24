@@ -15,6 +15,7 @@ import { CHECKBOX_STATES } from '../../constants/constants';
 import questions from '../../config/questions';
 import { FILTERED_IDS } from '../../config/settings';
 import DownloadData from '../common/DownloadData';
+import Header from './Header';
 
 const QuestionsView = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -111,6 +112,7 @@ const QuestionsView = () => {
         </div>
       ) : (
         <>
+          <Header />
           <Paper sx={{ width: '100%', overflow: 'hidden', marginTop: '20px' }}>
             <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
               <Table aria-label="simple table" stickyHeader>
