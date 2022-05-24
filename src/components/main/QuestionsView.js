@@ -50,24 +50,35 @@ const QuestionsView = () => {
     isLoading: isAppDataLoading,
   } = useAppData();
 
+  const areAllQuestionsAnswered = (checks) => {
+    let returnVal = true;
+    if (
+      checks
+        .filter((e) => e.data.state === CHECKBOX_STATES.Empty)
+        .isEmpty() &&
+      !checks.isEmpty()
+    ) {
+      objectQuestions.forEach(({id: qId}) => {
+        objectStudents.forEach(({id: sId}) => {
+          if(checks.filter(
+            ({ data }) => data.studentId === sId && data.questionId === qId,
+          ).isEmpty()){
+            returnVal = false;
+          }
+        })
+      });
+      return returnVal;
+    }
+    return false;    
+  };
+
   useEffect(() => {
     if (isAppDataSuccess && !isAppDataLoading) {
       const newChecks = appData.filter(
         ({ type }) => type === APP_DATA_TYPES.CHECK,
       );
       setQuestionStudent(newChecks);
-      if (
-        newChecks
-          .filter((e) => e.data.state === CHECKBOX_STATES.Empty)
-          .isEmpty() &&
-        !newChecks.isEmpty()// &&
-        // (nbrCheckBoxes > newChecks.count())
-      ) {
-        setDisabled(false);
-      } else {
-        setDisabled(true);
-      } // TODO: Fix. Need to check the number of answers. Even if all the boxes are not checked, there might not be any empty app data
-
+      setDisabled(!areAllQuestionsAnswered(newChecks));
       setSubmitted(!appData.filter(
         ({ type }) => type === APP_DATA_TYPES.SUBMIT_CONFIRM,
       ).isEmpty());
