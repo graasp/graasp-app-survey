@@ -1,4 +1,5 @@
 import React from 'react';
+import DownloadData from '../common/DownloadData';
 
 // eslint-disable-next-line arrow-body-style
 const AdminView = () => {
@@ -56,7 +57,8 @@ const AdminView = () => {
 
   return (
       <div>
-          <h2>Admin</h2>
+          <h2>Admin</h2> {/* TODO: Implement downloader */}
+          <DownloadData />
       </div>
   );
 };

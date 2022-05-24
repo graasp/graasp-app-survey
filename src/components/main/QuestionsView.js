@@ -12,10 +12,11 @@ import TableRows from './TableRows';
 import ColumnNames from './ColumnNames';
 import CommentSection from './CommentSection';
 // import generateQuestionStudents from '../utils/generateQuestionsStudents';
-import DownloadReport from './DownloadReport';
+// import DownloadReport from './DownloadReport';
 import { CHECKBOX_STATES } from '../../constants/constants';
 import questions from '../../config/questions';
 import { FILTERED_IDS } from '../../config/settings';
+import DownloadData from '../common/DownloadData';
 
 const QuestionsView = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -41,6 +42,8 @@ const QuestionsView = () => {
     }
   }, [appContext, isAppContextSuccess]);
 
+  // const nbrCheckBoxes = objectQuestions.length * objectStudents.length;
+
   const {
     data: appData,
     isSuccess: isAppDataSuccess,
@@ -57,12 +60,13 @@ const QuestionsView = () => {
         newChecks
           .filter((e) => e.data.state === CHECKBOX_STATES.Empty)
           .isEmpty() &&
-        !newChecks.isEmpty()
+        !newChecks.isEmpty()// &&
+        // (nbrCheckBoxes > newChecks.count())
       ) {
         setDisabled(false);
       } else {
         setDisabled(true);
-      }
+      } // TODO: Fix. Need to check the number of answers. Even if all the boxes are not checked, there might not be any empty app data
 
       setSubmitted(!appData.filter(
         ({ type }) => type === APP_DATA_TYPES.SUBMIT_CONFIRM,
@@ -88,7 +92,8 @@ const QuestionsView = () => {
         <div className="middle">
           <h1>Thank you!</h1>
           <div>
-            <DownloadReport />
+            {/* <DownloadReport /> */}
+            <DownloadData />
           </div>
         </div>
       ) : (

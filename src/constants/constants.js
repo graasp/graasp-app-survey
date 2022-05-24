@@ -5,7 +5,7 @@ export const RE_FETCH_INTERVAL = 60000; // Default: 1500
 
 export const DEFAULT_SUBMIT_CONFIRM = {
   type: APP_DATA_TYPES.SUBMIT_CONFIRM,
-  visibility: 'member',
+  // visibility: 'member',
   data: {},
 };
 
@@ -21,10 +21,6 @@ export const DEFAULT_CHECK_DATA = {
 };
 export const DEFAULT_CHECK = {
   type: APP_DATA_TYPES.CHECK,
-  visibility: 'member',
+  // visibility: 'member', // TODO: hahaha
   data: DEFAULT_CHECK_DATA,
-};
-
-export const APP_SETTINGS = {
-  PROGRESS_BAR_DISPLAY: 'progress_bar_display',
 };

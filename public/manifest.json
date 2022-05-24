@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Survey",
+  "name": "Survey app for Graasp",
   "icons": [
     {
       "src": "favicon.ico",

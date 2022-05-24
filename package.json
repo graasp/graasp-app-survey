@@ -2,6 +2,7 @@
   "name": "graasp-app-survey",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@graasp/apps-query-client": "github:graasp/graasp-apps-query-client.git",
     "@graasp/ui": "github:graasp/graasp-ui.git",
