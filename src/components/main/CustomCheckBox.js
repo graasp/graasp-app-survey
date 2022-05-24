@@ -17,11 +17,11 @@ const CustomCheckbox = ({ questionStudent, studentId, questionId }) => {
 
   const getState = () =>
     questionStudent
-      .filter(
+      ?.filter(
         ({ data }) =>
           data.questionId === questionId && data.studentId === studentId,
       )
-      .first()?.data.state ?? CHECKBOX_STATES.Empty;
+      ?.first()?.data.state ?? CHECKBOX_STATES.Empty;
 
   const [state, setState] = useState(getState());
 
