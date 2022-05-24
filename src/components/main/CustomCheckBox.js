@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
@@ -17,16 +16,18 @@ const CustomCheckbox = ({ questionStudent, studentId, questionId }) => {
   const [isChecked, setIsChecked] = useState(CHECKBOX_STATES.Empty);
 
   const getState = () => {
-    if(!questionStudent?.isEmpty()) {
-      return  (questionStudent
-        ?.filter(
-          ({ data }) =>
-            data.questionId === questionId && data.studentId === studentId,
-        )
-        ?.first()?.data.state) ?? CHECKBOX_STATES.Empty;
+    if (!questionStudent?.isEmpty()) {
+      return (
+        questionStudent
+          ?.filter(
+            ({ data }) =>
+              data.questionId === questionId && data.studentId === studentId,
+          )
+          ?.first()?.data.state ?? CHECKBOX_STATES.Empty
+      );
     }
     return CHECKBOX_STATES.Empty;
-  }
+  };
 
   const [state, setState] = useState(getState());
 

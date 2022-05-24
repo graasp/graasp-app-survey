@@ -13,7 +13,6 @@ const CommentSection = ({ setSubmitted, disabled }) => {
   const {
     data: appData,
     isSuccess: isAppDataSuccess,
-    // isStale: isAppDataStale,
     isLoading: isAppDataLoading,
   } = useAppData();
   const [comment, setComment] = useState(' ');

@@ -20,20 +20,15 @@ const TableRows = ({
           <TableCell component="th" scope="row">
             {question.position + 1}. {question.question}
           </TableCell>
-          {objectStudents
-            // .filter(({ data }) => data.questionId.equals(question.question))
-            .map((student) => (
-              <TableCell align="right" key={student.id}>
-                {/* <div style={{ color: 'black' }}>
-                    {question.question}
-                  </div> */}
-                <CustomCheckbox
-                  studentId={student.id}
-                  questionId={question.id}
-                  questionStudent={questionStudent}
-                />
-              </TableCell>
-            ))}
+          {objectStudents.map((student) => (
+            <TableCell align="right" key={student.id}>
+              <CustomCheckbox
+                studentId={student.id}
+                questionId={question.id}
+                questionStudent={questionStudent}
+              />
+            </TableCell>
+          ))}
         </TableRow>
       ))}
   </>

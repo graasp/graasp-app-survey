@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 // import { Button } from '@graasp/ui';
-import { Button  } from '@mui/material';
+import { Button } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { useAppData } from '../context/appData';
 import { showErrorToast } from '../../utils/toasts';
@@ -77,14 +77,14 @@ const DownloadData = () => {
       <Typography className={classes.headerText}>
         {t('Download answers.')}
       </Typography>
-        <Button
+      <Button
         disabled={!enableDownload}
         variant="contained"
         color="secondary"
         onClick={handleDownload}
-        >
+      >
         {t('Download data')}
-        </Button>
+      </Button>
     </div>
   );
 };

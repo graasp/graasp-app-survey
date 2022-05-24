@@ -11,8 +11,6 @@ import { APP_DATA_TYPES } from '../../config/appDataTypes';
 import TableRows from './TableRows';
 import ColumnNames from './ColumnNames';
 import CommentSection from './CommentSection';
-// import generateQuestionStudents from '../utils/generateQuestionsStudents';
-// import DownloadReport from './DownloadReport';
 import { CHECKBOX_STATES } from '../../constants/constants';
 import questions from '../../config/questions';
 import { FILTERED_IDS } from '../../config/settings';
@@ -36,7 +34,8 @@ const QuestionsView = () => {
   useEffect(() => {
     if (isAppContextSuccess) {
       const members = appContext
-        ?.get('members').filter((m) => !FILTERED_IDS.includes(m.id))
+        ?.get('members')
+        .filter((m) => !FILTERED_IDS.includes(m.id))
         .map((student) => ({ id: student.id, student: student.name }));
       setObjectStudents(members);
     }
@@ -53,23 +52,25 @@ const QuestionsView = () => {
   const areAllQuestionsAnswered = (checks) => {
     let returnVal = true;
     if (
-      checks
-        .filter((e) => e.data.state === CHECKBOX_STATES.Empty)
-        .isEmpty() &&
+      checks.filter((e) => e.data.state === CHECKBOX_STATES.Empty).isEmpty() &&
       !checks.isEmpty()
     ) {
-      objectQuestions.forEach(({id: qId}) => {
-        objectStudents.forEach(({id: sId}) => {
-          if(checks.filter(
-            ({ data }) => data.studentId === sId && data.questionId === qId,
-          ).isEmpty()){
+      objectQuestions.forEach(({ id: qId }) => {
+        objectStudents.forEach(({ id: sId }) => {
+          if (
+            checks
+              .filter(
+                ({ data }) => data.studentId === sId && data.questionId === qId,
+              )
+              .isEmpty()
+          ) {
             returnVal = false;
           }
-        })
+        });
       });
       return returnVal;
     }
-    return false;    
+    return false;
   };
 
   useEffect(() => {
@@ -79,9 +80,11 @@ const QuestionsView = () => {
       );
       setQuestionStudent(newChecks);
       setDisabled(!areAllQuestionsAnswered(newChecks));
-      setSubmitted(!appData.filter(
-        ({ type }) => type === APP_DATA_TYPES.SUBMIT_CONFIRM,
-      ).isEmpty());
+      setSubmitted(
+        !appData
+          .filter(({ type }) => type === APP_DATA_TYPES.SUBMIT_CONFIRM)
+          .isEmpty(),
+      );
     }
   }, [appData, isAppDataSuccess, isAppDataLoading]);
 
@@ -103,7 +106,6 @@ const QuestionsView = () => {
         <div className="middle">
           <h1>Thank you!</h1>
           <div>
-            {/* <DownloadReport /> */}
             <DownloadData />
           </div>
         </div>
