@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/graasp/graasp-app-survey/compare/v0.1.0...v0.1.1) (2022-08-19)
+
+
+### Bug Fixes
+
+* wrong secret name ([d3fde69](https://github.com/graasp/graasp-app-survey/commit/d3fde690120b7f418d1d858d14aac509ec6fb73e))
+
 ## 0.1.0 (2022-07-28)
 
 
